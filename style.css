@@ -26,14 +26,14 @@ li {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #acd7ec;
   height: 100vh;
+  box-shadow: var(--shadow);
 }
 
 .diary-container {
   width: 75%;
   height: 600px;
-  background-color: #e7e5e4;
+  background-color: white;
 }
 
 .icon {
@@ -45,25 +45,26 @@ li {
   display: flex;
   align-items: center;
   padding: 24px;
-  height: 10%;
-  background-color: aquamarine;
+  height: 75px;
+  background-color: #146c94;
   gap: 8px;
   box-shadow: var(--shadow);
 }
 
 .content-container {
   display: flex;
-  height: 90%;
+  height: 525px;
   box-shadow: var(--shadow);
 }
 .sidebar {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 150px;
+  width: max(200px, 20%);
   padding: 24px;
   border-right: var(--main-grey);
-  background-color: rgb(122, 206, 206);
+  background-color: #afd3e2;
+  box-shadow: var(--shadow);
 }
 
 .content-list {
@@ -72,9 +73,45 @@ li {
   gap: 24px;
 }
 
+.note-container {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  width: 100%;
+  background-color: #f6f1f1;
+}
+
+.create-button {
+  background-color: #19a7ce;
+  padding: 12px;
+}
+
 .note {
   display: flex;
-  width: 100%;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.08);
+  padding: 10px;
+  background-color: #afd3e2;
+  justify-content: space-between;
+}
+
+.edit-button {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.note-left,
+.note-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.note-left {
+  margin-left: 12px;
 }

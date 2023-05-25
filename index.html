@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script defer src="main.js"></script>
+    <script
+      defer
+      src="https://kit.fontawesome.com/82bed1da5e.js"
+      crossorigin="anonymous"
+    ></script>
     <title>To-Do-List</title>
   </head>
   <body>
@@ -21,16 +26,26 @@
               <li>Home</li>
               <li>Today</li>
               <li>Week</li>
-              <li>Extra Note</li>
+              <li>Note</li>
               <li>Project</li>
             </div>
             <div class="create-new">
-              <button>Create</button>
+              <button class="create-button">Create</button>
             </div>
           </div>
-          <div class="note">
-            <h1>testing</h1>
-            <h2>go go</h2>
+          <div class="note-container">
+            <div class="note">
+              <div class="note-left">
+                <input type="checkbox" id="note1" name="note1" value="note1" />
+                <label for="vehicle1"> My example note</label>
+              </div>
+              <div class="note-right">
+                <button class="edit-button">Edit</button>
+                <p class="date">Jun 9th</p>
+                <i class="fa-solid fa-pen-to-square"></i>
+                <i class="fa-solid fa-trash-can"></i>
+              </div>
+            </div>
           </div>
         </div>
       </div>
