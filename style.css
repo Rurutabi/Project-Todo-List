@@ -17,101 +17,106 @@ body {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   background-color: var(--main-grey);
 }
-li {
-  list-style-type: none;
-  font-size: 1.2rem;
-}
 
 .container {
+  height: 100vh;
+}
+
+.navContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  box-shadow: var(--shadow);
-}
-
-.diary-container {
-  width: 75%;
-  height: 600px;
-  background-color: white;
-}
-
-.icon {
-  width: 30px;
-  height: 30px;
-}
-
-.heading-container {
-  display: flex;
-  align-items: center;
-  padding: 24px;
-  height: 75px;
-  background-color: #146c94;
-  gap: 8px;
-  box-shadow: var(--shadow);
-}
-
-.content-container {
-  display: flex;
-  height: 525px;
-  box-shadow: var(--shadow);
-}
-.sidebar {
-  display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: max(200px, 20%);
-  padding: 24px;
-  border-right: var(--main-grey);
-  background-color: #afd3e2;
+  background-color: rgba(255, 0, 0, 0.2);
   box-shadow: var(--shadow);
+  height: 150px;
 }
 
-.content-list {
+.listContainer {
   display: flex;
-  flex-direction: column;
+  margin-top: 2%;
   gap: 24px;
 }
 
-.note-container {
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  width: 100%;
-  background-color: #f6f1f1;
+.heading {
+  font-size: 1.6rem;
+  font-weight: bold;
+  font-style: italic;
 }
 
-.create-button {
-  background-color: #19a7ce;
-  padding: 12px;
+li {
+  list-style-type: none;
+  font-size: 1.2rem;
+  font-style: italic;
 }
 
-.note {
-  display: flex;
-  padding: 10px;
-  background-color: #afd3e2;
-  justify-content: space-between;
-}
-
-.edit-button {
-  background-color: #4caf50; /* Green */
-  border: none;
-  color: white;
-  padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-}
-
-.note-left,
-.note-right {
+.home-container,
+.menu-container,
+.contact-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 12px;
+  margin-top: 4%;
+  background-color: var(--main-grey);
 }
 
-.note-left {
-  margin-left: 12px;
+.homebox,
+.menubox,
+.contactbox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  width: 600px;
+  padding: 24px;
+  gap: 24px;
+  box-shadow: var(--shadow);
+  animation: fadeIn 1s;
+}
+
+.menubox {
+  margin-bottom: 5%;
+}
+
+.img {
+  width: 250px;
+  height: 250px;
+  border-radius: 25%;
+}
+
+.par {
+  font-size: 18px;
+}
+
+.grid-container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  gap: 48px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid {
+  margin-top: 15%;
+  width: 150px;
+  height: 150px;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 24px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/*Display none*/
+.hide {
+  display: none;
 }
