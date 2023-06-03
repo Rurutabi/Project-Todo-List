@@ -7,11 +7,49 @@ export class createNote {
 
   createNote() {
     const note = document.createElement("div");
+    note.className = "note";
     this.noteContainer.appendChild(note);
 
-    const simpleText = document.createElement("p");
-    simpleText.textContent = "hi";
-    note.appendChild(simpleText);
+    const noteLeft = document.createElement("div");
+    noteLeft.className = "note-left";
+    note.appendChild(noteLeft);
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = "note1";
+    checkbox.name = "note1";
+    checkbox.value = "note1";
+    noteLeft.appendChild(checkbox);
+
+    const label = document.createElement("label");
+    label.for = "note";
+    label.textContent = "Example from Javascript";
+    noteLeft.appendChild(label);
+
+    const noteRight = document.createElement("div");
+    noteRight.className = "note-right";
+    note.appendChild(noteRight);
+
+    const button = document.createElement("button");
+    button.className = "edit-button";
+    button.textContent = "Edit";
+    noteRight.appendChild(button);
+
+    const date = document.createElement("p");
+    date.textContent = "Random date";
+    noteRight.appendChild(date);
+
+    const editIcon = document.createElement("i");
+    editIcon.className = "fa-solid fa-pen-to-square";
+    noteRight.appendChild(editIcon);
+
+    const binIcon = document.createElement("i");
+    binIcon.className = "fa-solid fa-trash-can";
+    noteRight.appendChild(binIcon);
+
+    // const simpleText = document.createElement("p");
+    // simpleText.textContent = "hi";
+    // note.appendChild(simpleText);
   }
 
   createNew() {

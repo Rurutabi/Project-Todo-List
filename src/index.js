@@ -1,5 +1,9 @@
-import { createWeb } from "./createweb.js";
+import { createNote } from "./createnote.js";
 
-const createWebsite = new createWeb();
+class indexJs {
+  constructor() {
+    this.createNote = new createNote();
+  }
+}
 
-console.log("yoyo");
+const test = new indexJs();
