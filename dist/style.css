@@ -31,7 +31,7 @@ li {
 }
 
 .diary-container {
-  width: 75%;
+  width: max(600px, 75%);
   height: 600px;
   background-color: white;
 }
@@ -77,7 +77,7 @@ li {
   display: flex;
   flex-direction: column;
   padding: 24px;
-  width: 100%;
+  width: max(600px, 100%);
   gap: 16px;
   background-color: #f6f1f1;
   overflow: scroll;
@@ -116,4 +116,40 @@ li {
 
 .note-left {
   margin-left: 12px;
+}
+
+.form-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 25%;
+  left: 25%;
+  background-color: rgb(50, 104, 205);
+  width: max(750px, 25%);
+}
+
+.form-header {
+  padding: 12px;
+}
+
+.form-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 150px;
+  padding: 24px;
+  background: white;
+  border-right: var(--main-grey);
+  background-color: #afd3e2;
+  box-shadow: var(--shadow);
+}
+
+.form-content {
+  display: flex;
+  background-color: rgb(167, 179, 169);
+  height: 400px;
+}
+
+.form {
+  padding: 12px;
 }

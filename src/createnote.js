@@ -46,10 +46,6 @@ export class createNote {
     const binIcon = document.createElement("i");
     binIcon.className = "fa-solid fa-trash-can";
     noteRight.appendChild(binIcon);
-
-    // const simpleText = document.createElement("p");
-    // simpleText.textContent = "hi";
-    // note.appendChild(simpleText);
   }
 
   createNew() {
