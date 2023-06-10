@@ -53,14 +53,57 @@
     <div class="form-container">
       <h3 class="form-header">Create a new...</h3>
       <div class="form-content">
-        <div class="form-list">
+        <div class="form-sidebar">
           <li>To Do</li>
           <li>Project</li>
           <li>Note</li>
         </div>
         <form action="" class="form">
-          <input class="input" type="text" id="fname" name="fname" />
-          <input class="input" type="text" id="lname" name="lname" />
+          <div class="top-form">
+            <input
+              class="top-input title"
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Enter your title"
+              required
+            />
+            <textarea
+              class="top-input detail"
+              name=""
+              placeholder="Details"
+            ></textarea>
+          </div>
+          <div class="bottom-form">
+            <div class="date-container">
+              <p>Due Date:</p>
+              <input
+                class="date"
+                type="date"
+                id="task-date"
+                name="task-date"
+                required
+              />
+            </div>
+            <div class="priority-and-submit">
+              <div class="priority-container">
+                <p>Priority:</p>
+                <label for="checkbox-button" class="checkbox-button low">
+                  <input type="radio" name="priority" value="low" required />
+                  Low
+                </label>
+                <label for="checkbox-button" class="checkbox-button medium">
+                  <input type="radio" name="priority" value="low" required />
+                  Medium
+                </label>
+                <label for="checkbox-button" class="checkbox-button high">
+                  <input type="radio" name="priority" value="low" required />
+                  High
+                </label>
+              </div>
+              <input class="add-button" type="submit" value="Add" />
+            </div>
+          </div>
         </form>
       </div>
     </div>
