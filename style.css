@@ -1,7 +1,7 @@
 :root {
   --shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   --main-grey: #e7e5e4;
-  --text-size: 1.2rem;
+  --text-size: 1rem;
   --main-color: #acd7ec;
   --global-margin-top: 36px;
 }
@@ -123,39 +123,104 @@ li {
   display: flex;
   flex-direction: column;
   top: 28%;
-  left: 20%;
-  background-color: rgb(50, 104, 205);
-  width: max(55%, 300px);
+  left: 25%;
+  width: max(50%, 300px);
 }
 
 .form-header {
   padding: 12px;
+  background-color: rgb(50, 104, 205);
 }
 
-.form-list {
+.form-content {
+  display: flex;
+  background-color: rgb(167, 179, 169);
+  height: 320px;
+}
+
+.form-sidebar {
   display: flex;
   flex-direction: column;
   gap: 18px;
   width: 150px;
-  padding: 24px;
+  padding: 12px;
   background: white;
   border-right: var(--main-grey);
   background-color: #afd3e2;
   box-shadow: var(--shadow);
 }
 
-.form-content {
-  display: flex;
-  background-color: rgb(167, 179, 169);
-  height: 400px;
-}
-
 .form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
+  background-color: white;
 }
 
-.input {
+.top-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.top-input {
   border: none;
+  font-size: var(--text-size);
+}
+
+.title,
+.detail {
+  outline: none;
   padding: 12px;
-  width: 100%;
+}
+
+.title {
+  height: 50px;
+}
+
+.detail {
+  height: 150px;
+  overflow-y: auto;
+  resize: none;
+}
+
+.bottom-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 12px;
+  margin-bottom: 30px;
+}
+
+.date-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.date {
+  margin-top: 4px;
+}
+
+.checkbox-button {
+  padding: 8px;
+}
+
+.priority-and-submit {
+  display: flex;
+  justify-content: space-between;
+}
+
+.priority-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-button {
+  padding: 8px;
+}
+
+.hide {
+  display: none;
 }
