@@ -26,14 +26,28 @@
               <li>Home</li>
               <li>Today</li>
               <li>Week</li>
-              <li>Note</li>
               <li>Project</li>
+              <li>Note</li>
             </div>
             <div class="create-new">
               <button class="create-button">Create</button>
             </div>
           </div>
-          <div class="note-container">
+          <div class="note-container today">
+            <div class="note">
+              <div class="note-left">
+                <input type="checkbox" id="note1" name="note1" value="note1" />
+                <label for="note" class="adjust-text"> My example note</label>
+              </div>
+              <div class="note-right">
+                <button class="edit-button">Edit</button>
+                <p class="date-text adjust-text">Jun 9th</p>
+                <i class="fa-solid fa-pen-to-square"></i>
+                <i class="fa-solid fa-trash-can"></i>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="note-container today hide">
             <div class="note">
               <div class="note-left">
                 <input type="checkbox" id="note1" name="note1" value="note1" />
@@ -46,11 +60,11 @@
                 <i class="fa-solid fa-trash-can"></i>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
-    <div class="form-container">
+    <div class="form-container hide">
       <h3 class="form-header">Create a new...</h3>
       <div class="form-content">
         <div class="form-sidebar">
@@ -58,7 +72,7 @@
           <li>Project</li>
           <li>Note</li>
         </div>
-        <form action="" class="form">
+        <form action="" class="form todo-form">
           <div class="top-form">
             <input
               class="top-input title"
@@ -101,7 +115,51 @@
                   High
                 </label>
               </div>
-              <input class="add-button" type="submit" value="Add" />
+              <input class="add-button" type="submit" value="Add To Do" />
+            </div>
+          </div>
+        </form>
+        <form action="" class="form project-form hide">
+          <div class="top-form">
+            <input
+              class="top-input title"
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Build Portfoilo"
+              required
+            />
+          </div>
+          <div class="bottom-form">
+            <div class="button-container">
+              <input
+                class="add-button"
+                type="submit"
+                value="Create a Project"
+              />
+            </div>
+          </div>
+        </form>
+
+        <form action="" class="form note-form hide">
+          <div class="top-form">
+            <input
+              class="top-input title"
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Build Portfoilo"
+              required
+            />
+            <textarea
+              class="top-input detail"
+              name=""
+              placeholder="Details"
+            ></textarea>
+          </div>
+          <div class="bottom-form">
+            <div class="button-container">
+              <input class="add-button" type="submit" value="Create a Note" />
             </div>
           </div>
         </form>
