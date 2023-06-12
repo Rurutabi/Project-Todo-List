@@ -137,7 +137,9 @@ button:hover {
   flex-direction: column;
   top: 28%;
   left: 25%;
-  width: max(50%, 300px);
+  width: max(50%, 450px);
+  animation: fadeIn 0.5s;
+  z-index: 10;
 }
 
 .form-header {
@@ -167,7 +169,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100%;
+  width: max(100%, 400px);
   background-color: white;
 }
 
@@ -230,10 +232,33 @@ button:hover {
   gap: 8px;
 }
 
-.add-button {
-  padding: 8px;
+.submit-button {
+  font-size: 12px;
+  background-color: #acd7ec;
+  padding: 4px;
 }
 
 .hide {
   display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 5;
+  animation: fadeIn 0.5s;
 }

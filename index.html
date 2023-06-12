@@ -75,7 +75,7 @@
         <form action="" class="form todo-form">
           <div class="top-form">
             <input
-              class="top-input title"
+              class="top-input todo-title title"
               type="text"
               id="title"
               name="title"
@@ -83,7 +83,7 @@
               required
             />
             <textarea
-              class="top-input detail"
+              class="top-input todo-detail detail"
               name=""
               placeholder="Details"
             ></textarea>
@@ -103,19 +103,41 @@
               <div class="priority-container">
                 <p>Priority:</p>
                 <label for="checkbox-button" class="checkbox-button low">
-                  <input type="radio" name="priority" value="low" required />
+                  <input
+                    type="radio"
+                    name="priority"
+                    value="low"
+                    class="thecheck"
+                    required
+                  />
                   Low
                 </label>
                 <label for="checkbox-button" class="checkbox-button medium">
-                  <input type="radio" name="priority" value="low" required />
+                  <input
+                    type="radio"
+                    name="priority"
+                    value="medium"
+                    class="thecheck"
+                    required
+                  />
                   Medium
                 </label>
                 <label for="checkbox-button" class="checkbox-button high">
-                  <input type="radio" name="priority" value="low" required />
+                  <input
+                    type="radio"
+                    name="priority"
+                    value="high"
+                    class="thecheck"
+                    required
+                  />
                   High
                 </label>
               </div>
-              <input class="add-button" type="submit" value="Add To Do" />
+              <input
+                class="submit-button todo-button"
+                type="submit"
+                value="Add To Do"
+              />
             </div>
           </div>
         </form>
@@ -133,7 +155,7 @@
           <div class="bottom-form">
             <div class="button-container">
               <input
-                class="add-button"
+                class="submit-button"
                 type="submit"
                 value="Create a Project"
               />
@@ -159,11 +181,16 @@
           </div>
           <div class="bottom-form">
             <div class="button-container">
-              <input class="add-button" type="submit" value="Create a Note" />
+              <input
+                class="submit-button"
+                type="submit"
+                value="Create a Note"
+              />
             </div>
           </div>
         </form>
       </div>
     </div>
+    <div class="overlay hide"></div>
   </body>
 </html>
