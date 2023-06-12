@@ -1,11 +1,21 @@
 export class createNote {
   noteContainer = document.querySelector(".note-container");
   createButton = document.querySelector(".create-button");
+  formContainer = document.querySelector(".form-container");
+  overlay = document.querySelector(".overlay");
+  todoTitle = document.querySelector(".todo-title");
+  todoDetail = document.querySelector(".todo-detail");
+  todoButton = document.querySelector(".todo-button");
+  todoDate = document.querySelector(".date");
+  toDoCheckbox = document.querySelectorAll(".thecheck");
+  formDetail = {};
   constructor() {
-    this.createNew();
+    this.showForm();
+    this.removeForm();
+    this.storeValue();
   }
 
-  createNote() {
+  createNote(titleValue, detailValue) {
     const note = document.createElement("div");
     note.className = "note";
     this.noteContainer.appendChild(note);
@@ -48,9 +58,34 @@ export class createNote {
     noteRight.appendChild(binIcon);
   }
 
-  createNew() {
+  showForm() {
     this.createButton.addEventListener("click", () => {
-      this.createNote();
+      this.formContainer.classList.remove("hide");
+      this.overlay.classList.remove("hide");
+    });
+  }
+
+  removeForm() {
+    this.overlay.addEventListener("click", () => {
+      this.overlay.classList.add("hide");
+      this.formContainer.classList.add("hide");
+    });
+  }
+
+  storeValue() {
+    this.todoButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.formDetail.title = this.todoTitle.value;
+      this.formDetail.detail = this.todoDetail.value;
+      this.formDetail.date = this.todoDate.value;
+
+      this.toDoCheckbox.forEach((checkValue) => {
+        if (checkValue.checked === true) {
+          this.formDetail.check = checkValue.value;
+        }
+      });
+
+      console.log(this.formDetail);
     });
   }
 }
