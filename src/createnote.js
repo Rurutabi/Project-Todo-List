@@ -7,15 +7,15 @@ export class createNote {
   todoDetail = document.querySelector(".todo-detail");
   todoButton = document.querySelector(".todo-button");
   todoDate = document.querySelector(".date");
-  toDoCheckbox = document.querySelectorAll(".thecheck");
+  todoCheckbox = document.querySelectorAll(".checkbox-button");
   formDetail = {};
   constructor() {
-    this.showForm();
-    this.removeForm();
-    this.storeValue();
+    this._showForm();
+    this._removeOverlay();
+    this._storeValue();
   }
 
-  createNote(titleValue, detailValue) {
+  _createNote(titleValue, detailValue, dateValue, checkboxValue) {
     const note = document.createElement("div");
     note.className = "note";
     this.noteContainer.appendChild(note);
@@ -33,20 +33,20 @@ export class createNote {
 
     const label = document.createElement("label");
     label.for = "note";
-    label.textContent = "Example from Javascript";
+    label.textContent = titleValue;
     noteLeft.appendChild(label);
 
     const noteRight = document.createElement("div");
     noteRight.className = "note-right";
     note.appendChild(noteRight);
 
-    const button = document.createElement("button");
-    button.className = "edit-button";
-    button.textContent = "Edit";
-    noteRight.appendChild(button);
+    const editButton = document.createElement("button");
+    editButton.className = "edit-button";
+    editButton.textContent = "Edit";
+    noteRight.appendChild(editButton);
 
     const date = document.createElement("p");
-    date.textContent = "Random date";
+    date.textContent = dateValue;
     noteRight.appendChild(date);
 
     const editIcon = document.createElement("i");
@@ -58,49 +58,60 @@ export class createNote {
     noteRight.appendChild(binIcon);
   }
 
-  showForm() {
+  _showForm() {
     this.createButton.addEventListener("click", () => {
       this.formContainer.classList.remove("hide");
       this.overlay.classList.remove("hide");
     });
   }
 
-  removeForm() {
+  _removeOverlay() {
     this.overlay.addEventListener("click", () => {
-      this.overlay.classList.add("hide");
-      this.formContainer.classList.add("hide");
+      this._removeForm();
     });
   }
 
-  storeValue() {
+  _removeForm() {
+    this.overlay.classList.add("hide");
+    this.formContainer.classList.add("hide");
+  }
+
+  _emptyForm() {
+    this.todoTitle.value = "";
+    this.todoDetail.value = "";
+    this.todoDate.value = "";
+    this.todoCheckbox.forEach((checkValue) => (checkValue.checked = false));
+  }
+
+  _customDate(date) {
+    const dateValue = date.split("-");
+    /*YYYY,Month,'Date'*/
+    const customDate = `${dateValue[2]}/${dateValue[1]}/${dateValue[0]}`;
+    return customDate;
+  }
+
+  _storeValue() {
     this.todoButton.addEventListener("click", (e) => {
       e.preventDefault();
       this.formDetail.title = this.todoTitle.value;
       this.formDetail.detail = this.todoDetail.value;
-      this.formDetail.date = this.todoDate.value;
+      this.formDetail.date = this._customDate(this.todoDate.value);
 
-      this.toDoCheckbox.forEach((checkValue) => {
+      this.todoCheckbox.forEach((checkValue) => {
         if (checkValue.checked === true) {
           this.formDetail.check = checkValue.value;
         }
       });
 
-      console.log(this.formDetail);
+      this._createNote(
+        this.formDetail.title,
+        this.formDetail.detail,
+        this.formDetail.date,
+        this.formDetail.check
+      );
+
+      this._removeForm();
+      this._emptyForm();
     });
   }
 }
-
-/* <div class="note-container">
-<div class="note">
-  <div class="note-left">
-    <input type="checkbox" id="note1" name="note1" value="note1" />
-    <label for="vehicle1"> My example note</label>
-  </div>
-  <div class="note-right">
-    <button class="edit-button">Edit</button>
-    <p class="date">Jun 9th</p>
-    <i class="fa-solid fa-pen-to-square"></i>
-    <i class="fa-solid fa-trash-can"></i>
-  </div>
-</div>
-</div> */
