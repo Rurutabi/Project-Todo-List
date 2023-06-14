@@ -9,6 +9,7 @@ export class createNote {
   todoDate = document.querySelector(".date");
   todoCheckbox = document.querySelectorAll(".checkbox-button");
   formDetail = {};
+
   constructor() {
     this._showForm();
     this._removeOverlay();
@@ -40,10 +41,10 @@ export class createNote {
     noteRight.className = "note-right";
     note.appendChild(noteRight);
 
-    const editButton = document.createElement("button");
-    editButton.className = "edit-button";
-    editButton.textContent = "Edit";
-    noteRight.appendChild(editButton);
+    const detailButton = document.createElement("button");
+    detailButton.className = "detail-button";
+    detailButton.textContent = "Detail";
+    noteRight.appendChild(detailButton);
 
     const date = document.createElement("p");
     date.textContent = dateValue;
@@ -85,33 +86,48 @@ export class createNote {
 
   _customDate(date) {
     const dateValue = date.split("-");
-    /*YYYY,Month,'Date'*/
     const customDate = `${dateValue[2]}/${dateValue[1]}/${dateValue[0]}`;
     return customDate;
   }
 
+  _checkDate() {
+    for (var i = 0; i < this.todoCheckbox.length; i++) {
+      if (this.todoCheckbox[i].checked) {
+        return true; // Return true if any radio button is selected
+      }
+    }
+    return false;
+  }
+
   _storeValue() {
     this.todoButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      this.formDetail.title = this.todoTitle.value;
-      this.formDetail.detail = this.todoDetail.value;
-      this.formDetail.date = this._customDate(this.todoDate.value);
+      if (
+        this.todoTitle.value !== "" &&
+        this.todoDetail.value !== "" &&
+        this.todoDate.value !== "" &&
+        this._checkDate() === true
+      ) {
+        e.preventDefault();
+        this.formDetail.title = this.todoTitle.value;
+        this.formDetail.detail = this.todoDetail.value;
+        this.formDetail.date = this._customDate(this.todoDate.value);
 
-      this.todoCheckbox.forEach((checkValue) => {
-        if (checkValue.checked === true) {
-          this.formDetail.check = checkValue.value;
-        }
-      });
+        this.todoCheckbox.forEach((checkValue) => {
+          if (checkValue.checked === true) {
+            this.formDetail.check = checkValue.value;
+          }
+        });
 
-      this._createNote(
-        this.formDetail.title,
-        this.formDetail.detail,
-        this.formDetail.date,
-        this.formDetail.check
-      );
+        this._createNote(
+          this.formDetail.title,
+          this.formDetail.detail,
+          this.formDetail.date,
+          this.formDetail.check
+        );
 
-      this._removeForm();
-      this._emptyForm();
+        this._removeForm();
+        this._emptyForm();
+      }
     });
   }
 }
