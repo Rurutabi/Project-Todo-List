@@ -8,6 +8,7 @@ export class createNote {
   todoButton = document.querySelector(".todo-button");
   todoDate = document.querySelector(".date");
   todoCheckbox = document.querySelectorAll(".checkbox-button");
+  detailButton = document.querySelector(".detail-button");
   formDetail = {};
 
   constructor() {
@@ -16,9 +17,10 @@ export class createNote {
     this._storeValue();
   }
 
-  _createNote(titleValue, detailValue, dateValue, checkboxValue) {
+  _addNote(titleValue, detailValue, dateValue, checkboxValue) {
     const note = document.createElement("div");
     note.className = "note";
+    this._priorityColor(checkboxValue, note);
     this.noteContainer.appendChild(note);
 
     const noteLeft = document.createElement("div");
@@ -57,6 +59,77 @@ export class createNote {
     const binIcon = document.createElement("i");
     binIcon.className = "fa-solid fa-trash-can";
     noteRight.appendChild(binIcon);
+  }
+
+  _addDetail() {
+    const detailContainerDiv = document.createElement("div");
+    detailContainerDiv.classList.add("detail-container");
+
+    const titleHeading = document.createElement("h2");
+    titleHeading.classList.add("detail-title", "title");
+    titleHeading.textContent = "My example note";
+
+    const detailListDiv = document.createElement("div");
+    detailListDiv.classList.add("detail-list");
+
+    const projectDetailDiv = document.createElement("div");
+    projectDetailDiv.classList.add("detail-content");
+
+    const projectHeader = document.createElement("p");
+    projectHeader.classList.add("detail-header");
+    projectHeader.textContent = "Project:";
+
+    const projectValue = document.createElement("p");
+    projectValue.textContent = "Today";
+
+    const priorityDetailDiv = document.createElement("div");
+    priorityDetailDiv.classList.add("detail-content");
+
+    const priorityHeader = document.createElement("p");
+    priorityHeader.classList.add("detail-header");
+    priorityHeader.textContent = "Priority:";
+
+    const priorityValue = document.createElement("p");
+    priorityValue.textContent = "Medium";
+
+    const dueDateDetailDiv = document.createElement("div");
+    dueDateDetailDiv.classList.add("detail-content");
+
+    const dueDateHeader = document.createElement("p");
+    dueDateHeader.classList.add("detail-header");
+    dueDateHeader.textContent = "Due Date:";
+
+    const dueDateValue = document.createElement("p");
+    dueDateValue.textContent = "09/07/2024";
+
+    const detailsDetailDiv = document.createElement("div");
+    detailsDetailDiv.classList.add("detail-content");
+
+    const detailsHeader = document.createElement("p");
+    detailsHeader.classList.add("detail-header");
+    detailsHeader.textContent = "Details:";
+
+    const detailsValue = document.createElement("p");
+    detailsValue.textContent = "Testing Example";
+
+    projectDetailDiv.appendChild(projectHeader);
+    projectDetailDiv.appendChild(projectValue);
+    priorityDetailDiv.appendChild(priorityHeader);
+    priorityDetailDiv.appendChild(priorityValue);
+    dueDateDetailDiv.appendChild(dueDateHeader);
+    dueDateDetailDiv.appendChild(dueDateValue);
+    detailsDetailDiv.appendChild(detailsHeader);
+    detailsDetailDiv.appendChild(detailsValue);
+
+    detailListDiv.appendChild(projectDetailDiv);
+    detailListDiv.appendChild(priorityDetailDiv);
+    detailListDiv.appendChild(dueDateDetailDiv);
+    detailListDiv.appendChild(detailsDetailDiv);
+
+    detailContainerDiv.appendChild(titleHeading);
+    detailContainerDiv.appendChild(detailListDiv);
+
+    document.body.appendChild(detailContainerDiv);
   }
 
   _showForm() {
@@ -99,6 +172,16 @@ export class createNote {
     return false;
   }
 
+  _priorityColor(checkboxValue, note) {
+    if (checkboxValue === "low") {
+      note.classList.add("green");
+    } else if (checkboxValue === "medium") {
+      note.classList.add("yellow");
+    } else if (checkboxValue === "high") {
+      note.classList.add("red");
+    }
+  }
+
   _storeValue() {
     this.todoButton.addEventListener("click", (e) => {
       if (
@@ -114,15 +197,24 @@ export class createNote {
 
         this.todoCheckbox.forEach((checkValue) => {
           if (checkValue.checked === true) {
-            this.formDetail.check = checkValue.value;
+            this.formDetail.priority = checkValue.value;
           }
         });
 
-        this._createNote(
+        console.log(this.formDetail);
+
+        this._addNote(
           this.formDetail.title,
           this.formDetail.detail,
           this.formDetail.date,
-          this.formDetail.check
+          this.formDetail.priority
+        );
+
+        this._addDetail(
+          this.formDetail.title,
+          this.formDetail.priority,
+          this.formDetail.date,
+          this.formDetail.detail
         );
 
         this._removeForm();
