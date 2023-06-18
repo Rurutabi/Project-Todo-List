@@ -40,7 +40,7 @@ button:hover {
 }
 
 .diary-container {
-  width: max(600px, 75%);
+  width: max(600px, 80%);
   height: 600px;
   background-color: white;
 }
@@ -85,9 +85,9 @@ button:hover {
 .note-container {
   display: flex;
   flex-direction: column;
-  padding: 24px;
-  width: max(600px, 100%);
-  gap: 16px;
+  padding: 12px;
+  width: max(1200px, 80%);
+  gap: 12px;
   background-color: #f6f1f1;
   overflow-y: scroll;
 }
@@ -131,15 +131,19 @@ button:hover {
   margin-left: 12px;
 }
 
-.form-container {
+.form-container,
+.detail-container {
   position: absolute;
   display: flex;
   flex-direction: column;
+  animation: fadeIn 0.5s;
+  z-index: 10;
+}
+
+.form-container {
   top: 28%;
   left: 25%;
   width: max(50%, 450px);
-  animation: fadeIn 0.5s;
-  z-index: 10;
 }
 
 .form-header {
@@ -261,4 +265,41 @@ button:hover {
   backdrop-filter: blur(3px);
   z-index: 5;
   animation: fadeIn 0.5s;
+}
+
+.green {
+  border-left: solid 0.5rem green;
+}
+
+.red {
+  border-left: solid 0.5rem red;
+}
+
+.yellow {
+  border-left: solid 0.5rem yellow;
+}
+
+.detail-container {
+  top: 40%;
+  left: 35%;
+  width: max(30%, 240px);
+  background-color: #acd7ec;
+  box-shadow: var(--shadow);
+  padding: 12px;
+  color: black;
+  border: solid white;
+}
+
+.detail-list {
+  padding: 0 0 12px 12px;
+  font-size: 16px;
+}
+
+.detail-content {
+  display: flex;
+  gap: 12px;
+}
+
+.detail-header {
+  font-weight: bold;
 }
