@@ -282,7 +282,7 @@ button:hover {
 .detail-container {
   top: 40%;
   left: 35%;
-  width: max(30%, 240px);
+  width: max(30%, 250px);
   background-color: #acd7ec;
   box-shadow: var(--shadow);
   padding: 12px;

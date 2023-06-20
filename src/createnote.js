@@ -59,15 +59,23 @@ export class createNote {
     const binIcon = document.createElement("i");
     binIcon.className = "fa-solid fa-trash-can";
     noteRight.appendChild(binIcon);
+    this._addDetail(
+      titleValue,
+      detailValue,
+      dateValue,
+      checkboxValue,
+      detailButton
+    );
   }
 
-  _addDetail() {
+  _addDetail(title, detail, date, priority, detailButton) {
     const detailContainerDiv = document.createElement("div");
     detailContainerDiv.classList.add("detail-container");
+    detailContainerDiv.classList.add("hide");
 
     const titleHeading = document.createElement("h2");
     titleHeading.classList.add("detail-title", "title");
-    titleHeading.textContent = "My example note";
+    titleHeading.textContent = `${title}`;
 
     const detailListDiv = document.createElement("div");
     detailListDiv.classList.add("detail-list");
@@ -90,7 +98,7 @@ export class createNote {
     priorityHeader.textContent = "Priority:";
 
     const priorityValue = document.createElement("p");
-    priorityValue.textContent = "Medium";
+    priorityValue.textContent = `${priority}`;
 
     const dueDateDetailDiv = document.createElement("div");
     dueDateDetailDiv.classList.add("detail-content");
@@ -100,7 +108,7 @@ export class createNote {
     dueDateHeader.textContent = "Due Date:";
 
     const dueDateValue = document.createElement("p");
-    dueDateValue.textContent = "09/07/2024";
+    dueDateValue.textContent = `${date}`;
 
     const detailsDetailDiv = document.createElement("div");
     detailsDetailDiv.classList.add("detail-content");
@@ -110,7 +118,7 @@ export class createNote {
     detailsHeader.textContent = "Details:";
 
     const detailsValue = document.createElement("p");
-    detailsValue.textContent = "Testing Example";
+    detailsValue.textContent = `${detail}`;
 
     projectDetailDiv.appendChild(projectHeader);
     projectDetailDiv.appendChild(projectValue);
@@ -130,11 +138,20 @@ export class createNote {
     detailContainerDiv.appendChild(detailListDiv);
 
     document.body.appendChild(detailContainerDiv);
+
+    this._showDetail(detailButton, detailContainerDiv);
   }
 
   _showForm() {
     this.createButton.addEventListener("click", () => {
       this.formContainer.classList.remove("hide");
+      this.overlay.classList.remove("hide");
+    });
+  }
+
+  _showDetail(detailButton, detailContainer) {
+    detailButton.addEventListener("click", () => {
+      detailContainer.classList.remove("hide");
       this.overlay.classList.remove("hide");
     });
   }
@@ -166,7 +183,7 @@ export class createNote {
   _checkDate() {
     for (var i = 0; i < this.todoCheckbox.length; i++) {
       if (this.todoCheckbox[i].checked) {
-        return true; // Return true if any radio button is selected
+        return true;
       }
     }
     return false;
@@ -201,20 +218,11 @@ export class createNote {
           }
         });
 
-        console.log(this.formDetail);
-
         this._addNote(
           this.formDetail.title,
           this.formDetail.detail,
           this.formDetail.date,
           this.formDetail.priority
-        );
-
-        this._addDetail(
-          this.formDetail.title,
-          this.formDetail.priority,
-          this.formDetail.date,
-          this.formDetail.detail
         );
 
         this._removeForm();
