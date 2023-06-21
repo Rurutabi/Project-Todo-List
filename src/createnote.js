@@ -59,16 +59,19 @@ export class createNote {
     const binIcon = document.createElement("i");
     binIcon.className = "fa-solid fa-trash-can";
     noteRight.appendChild(binIcon);
+
     this._addDetail(
       titleValue,
       detailValue,
       dateValue,
       checkboxValue,
-      detailButton
+      detailButton,
+      note,
+      binIcon
     );
   }
 
-  _addDetail(title, detail, date, priority, detailButton) {
+  _addDetail(title, detail, date, priority, detailButton, note, binIcon) {
     const detailContainerDiv = document.createElement("div");
     detailContainerDiv.classList.add("detail-container");
     detailContainerDiv.classList.add("hide");
@@ -140,6 +143,8 @@ export class createNote {
     document.body.appendChild(detailContainerDiv);
 
     this._showDetail(detailButton, detailContainerDiv);
+    this._removeDetail(detailContainerDiv);
+    this._removeNote(note, detailContainerDiv, binIcon);
   }
 
   _showForm() {
@@ -165,6 +170,20 @@ export class createNote {
   _removeForm() {
     this.overlay.classList.add("hide");
     this.formContainer.classList.add("hide");
+  }
+
+  _removeDetail(detailContainerDiv) {
+    this.overlay.addEventListener("click", () => {
+      detailContainerDiv.classList.add("hide");
+      this.overlay.classList.add("hide");
+    });
+  }
+
+  _removeNote(note, detailContainerDiv, binIcon) {
+    binIcon.addEventListener("click", () => {
+      note.remove();
+      detailContainerDiv.remove();
+    });
   }
 
   _emptyForm() {
