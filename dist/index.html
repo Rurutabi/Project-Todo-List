@@ -58,6 +58,9 @@
           <li>Project</li>
           <li>Note</li>
         </div>
+
+        <!-- To do form -->
+
         <form action="" class="form todo-form">
           <div class="top-form">
             <input
@@ -93,7 +96,7 @@
                   <input
                     type="radio"
                     name="priority"
-                    value="low"
+                    value="Low"
                     class="checkbox-button"
                     required
                   />
@@ -103,7 +106,7 @@
                   <input
                     type="radio"
                     name="priority"
-                    value="medium"
+                    value="Medium"
                     class="checkbox-button"
                     required
                   />
@@ -113,7 +116,7 @@
                   <input
                     type="radio"
                     name="priority"
-                    value="high"
+                    value="High"
                     class="checkbox-button"
                     required
                   />
@@ -128,6 +131,9 @@
             </div>
           </div>
         </form>
+
+        <!-- Project Form -->
+
         <form action="" class="form project-form hide">
           <div class="top-form">
             <input
@@ -150,6 +156,7 @@
           </div>
         </form>
 
+        <!-- Note form -->
         <form action="" class="form note-form hide">
           <div class="top-form">
             <input
@@ -178,27 +185,83 @@
         </form>
       </div>
     </div>
-    <!-- <div class="detail-container">
-      <h2 class="detail-title title">My example note</h2>
-      <div class="detail-list">
-        <div class="detail-content">
-          <p class="detail-header">Project:</p>
-          <p>Today</p>
+
+    <!-- Edit container -->
+
+    <div class="edit-container hide">
+      <form action="" class="form edit-form">
+        <div class="top-form">
+          <input
+            class="top-input edit-title title"
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Enter your title"
+            required
+          />
+          <textarea
+            class="top-input edit-detail detail"
+            name=""
+            placeholder="Details"
+            required
+          ></textarea>
         </div>
-        <div class="detail-content">
-          <p class="detail-header">Priority:</p>
-          <p>Medium</p>
+        <div class="bottom-form">
+          <div class="date-container">
+            <p>Due Date:</p>
+            <input
+              class="date"
+              type="date"
+              id="task-date"
+              name="task-date"
+              required
+            />
+          </div>
+          <div class="priority-and-submit">
+            <div class="priority-container">
+              <p>Priority:</p>
+              <label for="checkbox-label" class="checkbox-label low">
+                <input
+                  type="radio"
+                  name="priority"
+                  value="Low"
+                  class="checkbox-button"
+                  required
+                />
+                Low
+              </label>
+              <label for="checkbox-label" class="checkbox-label medium">
+                <input
+                  type="radio"
+                  name="priority"
+                  value="Medium"
+                  class="checkbox-button"
+                  required
+                />
+                Medium
+              </label>
+              <label for="checkbox-label" class="checkbox-label high">
+                <input
+                  type="radio"
+                  name="priority"
+                  value="High"
+                  class="checkbox-button"
+                  required
+                />
+                High
+              </label>
+            </div>
+            <input
+              class="submit-button edit-button"
+              type="submit"
+              value="Add To Do"
+            />
+          </div>
         </div>
-        <div class="detail-content">
-          <p class="detail-header">Due Date:</p>
-          <p>09/07/2024</p>
-        </div>
-        <div class="detail-content">
-          <p class="detail-header">Details:</p>
-          <p>Testing Example</p>
-        </div>
-      </div>
-    </div> -->
+      </form>
+    </div>
+
+    <!-- Overlay -->
     <div class="overlay hide"></div>
   </body>
 </html>

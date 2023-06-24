@@ -9,6 +9,7 @@ export class createNote {
   todoDate = document.querySelector(".date");
   todoCheckbox = document.querySelectorAll(".checkbox-button");
   detailButton = document.querySelector(".detail-button");
+  editContainer = document.querySelector(".edit-container");
   formDetail = {};
 
   constructor() {
@@ -209,11 +210,11 @@ export class createNote {
   }
 
   _priorityColor(checkboxValue, note) {
-    if (checkboxValue === "low") {
+    if (checkboxValue === "Low") {
       note.classList.add("green");
-    } else if (checkboxValue === "medium") {
+    } else if (checkboxValue === "Medium") {
       note.classList.add("yellow");
-    } else if (checkboxValue === "high") {
+    } else if (checkboxValue === "High") {
       note.classList.add("red");
     }
   }
