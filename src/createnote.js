@@ -10,6 +10,13 @@ export class createNote {
   todoCheckbox = document.querySelectorAll(".checkbox-button");
   detailButton = document.querySelector(".detail-button");
   editContainer = document.querySelector(".edit-container");
+  editButton = document.querySelector(".edit-button");
+  editTitle = document.querySelector(".edit-title");
+  editDetail = document.querySelector(".edit-detail");
+  editDate = document.querySelector(".edit-date");
+  editLow = document.querySelector(".edit-low");
+  editMedium = document.querySelector(".edit-medium");
+  editHigh = document.querySelector(".edit-high");
   formDetail = {};
 
   constructor() {
@@ -18,10 +25,10 @@ export class createNote {
     this._storeValue();
   }
 
-  _addNote(titleValue, detailValue, dateValue, checkboxValue) {
+  _addNote(titleValue, detailValue, dateValue, priority) {
     const note = document.createElement("div");
     note.className = "note";
-    this._priorityColor(checkboxValue, note);
+    this._priorityColor(priority, note);
     this.noteContainer.appendChild(note);
 
     const noteLeft = document.createElement("div");
@@ -62,10 +69,10 @@ export class createNote {
     noteRight.appendChild(binIcon);
 
     this._addDetail(
-      titleValue,
+      title,
       detailValue,
-      dateValue,
-      checkboxValue,
+      date,
+      priority,
       detailButton,
       note,
       binIcon,
@@ -74,9 +81,9 @@ export class createNote {
   }
 
   _addDetail(
-    titleValue,
-    detail,
-    dateValue,
+    title,
+    detailValue,
+    date,
     priority,
     detailButton,
     note,
@@ -89,7 +96,7 @@ export class createNote {
 
     const titleHeading = document.createElement("h2");
     titleHeading.classList.add("detail-title", "title");
-    titleHeading.textContent = `${titleValue}`;
+    titleHeading.textContent = `${title.textContent}`;
 
     const detailListDiv = document.createElement("div");
     detailListDiv.classList.add("detail-list");
@@ -122,7 +129,7 @@ export class createNote {
     dueDateHeader.textContent = "Due Date:";
 
     const dueDateValue = document.createElement("p");
-    dueDateValue.textContent = `${dateValue}`;
+    dueDateValue.textContent = `${date.textContent}`;
 
     const detailsDetailDiv = document.createElement("div");
     detailsDetailDiv.classList.add("detail-content");
@@ -132,7 +139,7 @@ export class createNote {
     detailsHeader.textContent = "Details:";
 
     const detailsValue = document.createElement("p");
-    detailsValue.textContent = `${detail}`;
+    detailsValue.textContent = `${detailValue}`;
 
     projectDetailDiv.appendChild(projectHeader);
     projectDetailDiv.appendChild(projectValue);
@@ -156,7 +163,7 @@ export class createNote {
     this._showDetail(detailButton, detailContainerDiv);
     this._removeDetail(detailContainerDiv);
     this._removeNote(note, detailContainerDiv, binIcon);
-    this._showEdit(editIcon);
+    this._showEdit(editIcon, title, detailValue, date, priority);
     this._removeEdit();
   }
 
@@ -167,10 +174,14 @@ export class createNote {
     });
   }
 
-  _showEdit(editbutton) {
+  _showEdit(editbutton, title, detailValue, date, priority) {
     editbutton.addEventListener("click", () => {
       this.editContainer.classList.remove("hide");
       this.overlay.classList.remove("hide");
+      this.editTitle.value = title.textContent;
+      this.editDetail.value = detailValue;
+      this.editDate.value = this._resetDate(date.textContent);
+      this._tickPriority(priority);
     });
   }
 
@@ -220,13 +231,19 @@ export class createNote {
     this.todoCheckbox.forEach((checkValue) => (checkValue.checked = false));
   }
 
+  _resetDate(date) {
+    const dateValue = date.split("/");
+    const resetDate = `${dateValue[2]}-${dateValue[1]}-${dateValue[0]}`;
+    return resetDate;
+  }
+
   _customDate(date) {
     const dateValue = date.split("-");
     const customDate = `${dateValue[2]}/${dateValue[1]}/${dateValue[0]}`;
     return customDate;
   }
 
-  _checkDate() {
+  _checkPriority() {
     for (var i = 0; i < this.todoCheckbox.length; i++) {
       if (this.todoCheckbox[i].checked) {
         return true;
@@ -235,12 +252,22 @@ export class createNote {
     return false;
   }
 
-  _priorityColor(checkboxValue, note) {
-    if (checkboxValue === "Low") {
+  _tickPriority(priority) {
+    if (priority === "High") {
+      this.editHigh.checked = true;
+    } else if (priority === "Medium") {
+      this.editMedium.checked = true;
+    } else if (priority === "Low") {
+      this.editLow.checked = true;
+    }
+  }
+
+  _priorityColor(priority, note) {
+    if (priority === "Low") {
       note.classList.add("green");
-    } else if (checkboxValue === "Medium") {
+    } else if (priority === "Medium") {
       note.classList.add("yellow");
-    } else if (checkboxValue === "High") {
+    } else if (priority === "High") {
       note.classList.add("red");
     }
   }
@@ -251,7 +278,7 @@ export class createNote {
         this.todoTitle.value !== "" &&
         this.todoDetail.value !== "" &&
         this.todoDate.value !== "" &&
-        this._checkDate() === true
+        this._checkPriority() === true
       ) {
         e.preventDefault();
         this.formDetail.title = this.todoTitle.value;
