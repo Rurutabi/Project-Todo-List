@@ -17,7 +17,8 @@ export class createNote {
   editLow = document.querySelector(".edit-low");
   editMedium = document.querySelector(".edit-medium");
   editHigh = document.querySelector(".edit-high");
-  formDetail = {};
+  editCheckbox = document.querySelectorAll(".edit-checkbox");
+  storeInfo = [];
 
   constructor() {
     this._showForm();
@@ -138,8 +139,8 @@ export class createNote {
     detailsHeader.classList.add("detail-header");
     detailsHeader.textContent = "Details:";
 
-    const detailsValue = document.createElement("p");
-    detailsValue.textContent = `${detailValue}`;
+    const detail = document.createElement("p");
+    detail.textContent = `${detailValue}`;
 
     projectDetailDiv.appendChild(projectHeader);
     projectDetailDiv.appendChild(projectValue);
@@ -148,7 +149,7 @@ export class createNote {
     dueDateDetailDiv.appendChild(dueDateHeader);
     dueDateDetailDiv.appendChild(dueDateValue);
     detailsDetailDiv.appendChild(detailsHeader);
-    detailsDetailDiv.appendChild(detailsValue);
+    detailsDetailDiv.appendChild(detail);
 
     detailListDiv.appendChild(projectDetailDiv);
     detailListDiv.appendChild(priorityDetailDiv);
@@ -171,17 +172,38 @@ export class createNote {
     this.overlay.addEventListener("click", () => {
       this.editContainer.classList.add("hide");
       this.overlay.classList.add("hide");
+      this.editTitle.value = "";
+      this.editDetail.value = "";
+      this.editDate.value = "";
     });
   }
 
-  _showEdit(editbutton, title, detailValue, date, priority) {
-    editbutton.addEventListener("click", () => {
+  _showEdit(editIcon, title, detailValue, date, priority) {
+    editIcon.addEventListener("click", () => {
       this.editContainer.classList.remove("hide");
       this.overlay.classList.remove("hide");
       this.editTitle.value = title.textContent;
       this.editDetail.value = detailValue;
       this.editDate.value = this._resetDate(date.textContent);
       this._tickPriority(priority);
+      this.editButton.removeEventListener("click", this._editNote);
+
+      this._editNote = (e) => {
+        if (
+          this.editTitle.value !== "" &&
+          this.editDetail.value !== "" &&
+          this.editDate.value !== "" &&
+          this._checkPriority(this.editCheckbox) === true
+        ) {
+          e.preventDefault();
+          title.textContent = this.editTitle.value;
+          date.textContent = this._customDate(this.editDate.value);
+          this.editContainer.classList.add("hide");
+          this.overlay.classList.add("hide");
+        }
+      };
+
+      this.editButton.addEventListener("click", this._editNote);
     });
   }
 
@@ -243,9 +265,9 @@ export class createNote {
     return customDate;
   }
 
-  _checkPriority() {
-    for (var i = 0; i < this.todoCheckbox.length; i++) {
-      if (this.todoCheckbox[i].checked) {
+  _checkPriority(priorityCheckbox) {
+    for (var i = 0; i < priorityCheckbox.length; i++) {
+      if (priorityCheckbox[i].checked) {
         return true;
       }
     }
@@ -278,24 +300,31 @@ export class createNote {
         this.todoTitle.value !== "" &&
         this.todoDetail.value !== "" &&
         this.todoDate.value !== "" &&
-        this._checkPriority() === true
+        this._checkPriority(this.todoCheckbox) === true
       ) {
         e.preventDefault();
-        this.formDetail.title = this.todoTitle.value;
-        this.formDetail.detail = this.todoDetail.value;
-        this.formDetail.date = this._customDate(this.todoDate.value);
+
+        let priorityStore = "";
 
         this.todoCheckbox.forEach((checkValue) => {
           if (checkValue.checked === true) {
-            this.formDetail.priority = checkValue.value;
+            priorityStore = checkValue.value;
           }
         });
 
+        const newForm = {
+          title: this.todoTitle.value,
+          detail: this.todoDetail.value,
+          date: this._customDate(this.todoDate.value),
+          priority: priorityStore,
+        };
+
+        this.storeInfo.push(this.newForm);
         this._addNote(
-          this.formDetail.title,
-          this.formDetail.detail,
-          this.formDetail.date,
-          this.formDetail.priority
+          newForm.title,
+          newForm.detail,
+          newForm.date,
+          newForm.priority
         );
 
         this._removeForm();
