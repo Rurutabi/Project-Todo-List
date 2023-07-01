@@ -29,6 +29,7 @@ export class createNote {
   _addNote(titleValue, detailValue, dateValue, priority) {
     const note = document.createElement("div");
     note.className = "note";
+
     this._priorityColor(priority, note);
     this.noteContainer.appendChild(note);
 
@@ -164,7 +165,7 @@ export class createNote {
     this._showDetail(detailButton, detailContainerDiv);
     this._removeDetail(detailContainerDiv);
     this._removeNote(note, detailContainerDiv, binIcon);
-    this._showEdit(editIcon, title, detailValue, date, priority);
+    this._showEdit(editIcon, title, detailValue, date, priority, note);
     this._removeEdit();
   }
 
@@ -178,13 +179,14 @@ export class createNote {
     });
   }
 
-  _showEdit(editIcon, title, detailValue, date, priority) {
+  _showEdit(editIcon, title, detailValue, date, priority, note) {
     editIcon.addEventListener("click", () => {
       this.editContainer.classList.remove("hide");
       this.overlay.classList.remove("hide");
       this.editTitle.value = title.textContent;
       this.editDetail.value = detailValue;
       this.editDate.value = this._resetDate(date.textContent);
+
       this._tickPriority(priority);
       this.editButton.removeEventListener("click", this._editNote);
 
@@ -198,6 +200,9 @@ export class createNote {
           e.preventDefault();
           title.textContent = this.editTitle.value;
           date.textContent = this._customDate(this.editDate.value);
+
+          this._priorityColor(this._getPriority(this.editCheckbox), note);
+          priority = this._getPriority(this.editCheckbox);
           this.editContainer.classList.add("hide");
           this.overlay.classList.add("hide");
         }
@@ -265,6 +270,17 @@ export class createNote {
     return customDate;
   }
 
+  _getPriority(checkbox) {
+    let priorityStore = "";
+    checkbox.forEach((checkValue) => {
+      if (checkValue.checked === true) {
+        priorityStore = checkValue.value;
+      }
+    });
+
+    return priorityStore;
+  }
+
   _checkPriority(priorityCheckbox) {
     for (var i = 0; i < priorityCheckbox.length; i++) {
       if (priorityCheckbox[i].checked) {
@@ -285,6 +301,9 @@ export class createNote {
   }
 
   _priorityColor(priority, note) {
+    note.classList.remove("green");
+    note.classList.remove("yellow");
+    note.classList.remove("red");
     if (priority === "Low") {
       note.classList.add("green");
     } else if (priority === "Medium") {
@@ -304,20 +323,14 @@ export class createNote {
       ) {
         e.preventDefault();
 
-        let priorityStore = "";
-
-        this.todoCheckbox.forEach((checkValue) => {
-          if (checkValue.checked === true) {
-            priorityStore = checkValue.value;
-          }
-        });
-
         const newForm = {
           title: this.todoTitle.value,
           detail: this.todoDetail.value,
           date: this._customDate(this.todoDate.value),
-          priority: priorityStore,
+          priority: this._getPriority(this.todoCheckbox),
         };
+
+        console.log(newForm.priority);
 
         this.storeInfo.push(this.newForm);
         this._addNote(
