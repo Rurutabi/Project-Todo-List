@@ -3,12 +3,23 @@ export class createNote {
   createButton = document.querySelector(".create-button");
   formContainer = document.querySelector(".form-container");
   overlay = document.querySelector(".overlay");
+
+  //Sidebar
+  homeSidebar = document.querySelector(".home");
+  todaySidebar = document.querySelector(".today");
+  weekSidebar = document.querySelector(".week");
+  projectSidebar = document.querySelector(".project");
+  noteSidebar = document.querySelector(".note");
+
+  //Todo
   todoTitle = document.querySelector(".todo-title");
   todoDetail = document.querySelector(".todo-detail");
   todoButton = document.querySelector(".todo-button");
   todoDate = document.querySelector(".date");
   todoCheckbox = document.querySelectorAll(".checkbox-button");
   detailButton = document.querySelector(".detail-button");
+
+  //Edit
   editContainer = document.querySelector(".edit-container");
   editButton = document.querySelector(".edit-button");
   editTitle = document.querySelector(".edit-title");
@@ -24,6 +35,38 @@ export class createNote {
     this._showForm();
     this._removeOverlay();
     this._storeValue();
+    this._selectSidebar();
+  }
+
+  _selectSidebar() {
+    this.homeSidebar.addEventListener("click", () => {
+      this._removeHighlight();
+      this.homeSidebar.classList.add("highlight");
+    });
+    this.todaySidebar.addEventListener("click", () => {
+      this._removeHighlight();
+      this.todaySidebar.classList.add("highlight");
+    });
+    this.weekSidebar.addEventListener("click", () => {
+      this._removeHighlight();
+      this.weekSidebar.classList.add("highlight");
+    });
+    this.projectSidebar.addEventListener("click", () => {
+      this._removeHighlight();
+      this.projectSidebar.classList.add("highlight");
+    });
+    this.noteSidebar.addEventListener("click", () => {
+      this._removeHighlight();
+      this.noteSidebar.classList.add("highlight");
+    });
+  }
+
+  _removeHighlight() {
+    this.homeSidebar.classList.remove("highlight");
+    this.todaySidebar.classList.remove("highlight");
+    this.weekSidebar.classList.remove("highlight");
+    this.projectSidebar.classList.remove("highlight");
+    this.noteSidebar.classList.remove("highlight");
   }
 
   _addNote(titleValue, detailValue, dateValue, priority) {
