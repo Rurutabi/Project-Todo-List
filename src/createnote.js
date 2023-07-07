@@ -5,11 +5,11 @@ export class createNote {
   overlay = document.querySelector(".overlay");
 
   //Sidebar
-  homeSidebar = document.querySelector(".home");
-  todaySidebar = document.querySelector(".today");
-  weekSidebar = document.querySelector(".week");
-  projectSidebar = document.querySelector(".project");
-  noteSidebar = document.querySelector(".note");
+  homeSidebar = document.querySelector(".home-sidebar");
+  todaySidebar = document.querySelector(".today-sidebar");
+  weekSidebar = document.querySelector(".week-sidebar");
+  projectSidebar = document.querySelector(".project-sidebar");
+  noteSidebar = document.querySelector(".note-sidebar");
 
   //Todo
   todoTitle = document.querySelector(".todo-title");
@@ -35,10 +35,10 @@ export class createNote {
     this._showForm();
     this._removeOverlay();
     this._storeValue();
-    this._selectSidebar();
+    this._highlightSidebar();
   }
 
-  _selectSidebar() {
+  _highlightSidebar() {
     this.homeSidebar.addEventListener("click", () => {
       this._removeHighlight();
       this.homeSidebar.classList.add("highlight");
@@ -61,6 +61,26 @@ export class createNote {
     });
   }
 
+  _noteTitle(note) {
+    this.homeSidebar.addEventListener("click", () => {
+      note.classList.remove("hide");
+    });
+    this.todaySidebar.addEventListener("click", () => {
+      if (note.classList.contains("today") === false) {
+        note.classList.add("hide");
+      } else if (note.classList.contains("today") === true) {
+        note.classList.remove("hide");
+      }
+    });
+    this.weekSidebar.addEventListener("click", () => {
+      if (note.classList.contains("week") === false) {
+        note.classList.add("hide");
+      } else if (note.classList.contains("week") === true) {
+        note.classList.remove("hide");
+      }
+    });
+  }
+
   _removeHighlight() {
     this.homeSidebar.classList.remove("highlight");
     this.todaySidebar.classList.remove("highlight");
@@ -72,6 +92,8 @@ export class createNote {
   _addNote(titleValue, detailValue, dateValue, priority) {
     const note = document.createElement("div");
     note.className = "note";
+    this._categorizeNote(note);
+    this._noteTitle(note);
 
     this._priorityColor(priority, note);
     this.noteContainer.appendChild(note);
@@ -82,9 +104,6 @@ export class createNote {
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.id = "note1";
-    checkbox.name = "note1";
-    checkbox.value = "note1";
     noteLeft.appendChild(checkbox);
 
     const title = document.createElement("label");
@@ -210,6 +229,20 @@ export class createNote {
     this._removeNote(note, detailContainerDiv, binIcon);
     this._showEdit(editIcon, title, detailValue, date, priority, note);
     this._removeEdit();
+  }
+
+  _categorizeNote(note) {
+    if (this.homeSidebar.classList.contains("highlight")) {
+      note.classList.add("home");
+    } else if (this.todaySidebar.classList.contains("highlight")) {
+      note.classList.add("today");
+    } else if (this.weekSidebar.classList.contains("highlight")) {
+      note.classList.add("week");
+    } else if (this.projectSidebar.classList.contains("highlight")) {
+      note.classList.add("project");
+    } else if (this.noteSidebar.classList.contains("highlight")) {
+      note.classList.add("stickynote");
+    }
   }
 
   _removeEdit() {
@@ -365,26 +398,28 @@ export class createNote {
         this._checkPriority(this.todoCheckbox) === true
       ) {
         e.preventDefault();
+        if (this.homeSidebar.classList.contains("highlight") !== true) {
+          const newForm = {
+            title: this.todoTitle.value,
+            detail: this.todoDetail.value,
+            date: this._customDate(this.todoDate.value),
+            priority: this._getPriority(this.todoCheckbox),
+          };
 
-        const newForm = {
-          title: this.todoTitle.value,
-          detail: this.todoDetail.value,
-          date: this._customDate(this.todoDate.value),
-          priority: this._getPriority(this.todoCheckbox),
-        };
+          console.log(newForm.priority);
 
-        console.log(newForm.priority);
+          this.storeInfo.push(this.newForm);
 
-        this.storeInfo.push(this.newForm);
-        this._addNote(
-          newForm.title,
-          newForm.detail,
-          newForm.date,
-          newForm.priority
-        );
+          this._addNote(
+            newForm.title,
+            newForm.detail,
+            newForm.date,
+            newForm.priority
+          );
 
-        this._removeForm();
-        this._emptyForm();
+          this._removeForm();
+          this._emptyForm();
+        }
       }
     });
   }
