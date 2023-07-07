@@ -17,7 +17,14 @@ export class createNote {
   todoButton = document.querySelector(".todo-button");
   todoDate = document.querySelector(".date");
   todoCheckbox = document.querySelectorAll(".checkbox-button");
-  detailButton = document.querySelector(".detail-button");
+
+  //Detail
+  detailContainer = document.querySelector(".detail-container");
+  detailTitle = document.querySelector(".detail-title");
+  detailProject = document.querySelector(".detail-project");
+  detailPriority = document.querySelector(".detail-priority");
+  detailDate = document.querySelector(".detail-date");
+  detailDetails = document.querySelector(".detail-details");
 
   //Edit
   editContainer = document.querySelector(".edit-container");
@@ -79,6 +86,20 @@ export class createNote {
         note.classList.remove("hide");
       }
     });
+    this.projectSidebar.addEventListener("click", () => {
+      if (note.classList.contains("project") === false) {
+        note.classList.add("hide");
+      } else if (note.classList.contains("project") === true) {
+        note.classList.remove("hide");
+      }
+    });
+    this.noteSidebar.addEventListener("click", () => {
+      if (note.classList.contains("Note") === false) {
+        note.classList.add("hide");
+      } else if (note.classList.contains("Note") === true) {
+        note.classList.remove("hide");
+      }
+    });
   }
 
   _removeHighlight() {
@@ -132,103 +153,23 @@ export class createNote {
     binIcon.className = "fa-solid fa-trash-can";
     noteRight.appendChild(binIcon);
 
-    this._addDetail(
-      title,
-      detailValue,
-      date,
-      priority,
-      detailButton,
-      note,
-      binIcon,
-      editIcon
-    );
-  }
-
-  _addDetail(
-    title,
-    detailValue,
-    date,
-    priority,
-    detailButton,
-    note,
-    binIcon,
-    editIcon
-  ) {
-    const detailContainerDiv = document.createElement("div");
-    detailContainerDiv.classList.add("detail-container");
-    detailContainerDiv.classList.add("hide");
-
-    const titleHeading = document.createElement("h2");
-    titleHeading.classList.add("detail-title", "title");
-    titleHeading.textContent = `${title.textContent}`;
-
-    const detailListDiv = document.createElement("div");
-    detailListDiv.classList.add("detail-list");
-
-    const projectDetailDiv = document.createElement("div");
-    projectDetailDiv.classList.add("detail-content");
-
-    const projectHeader = document.createElement("p");
-    projectHeader.classList.add("detail-header");
-    projectHeader.textContent = "Project:";
-
-    const projectValue = document.createElement("p");
-    projectValue.textContent = "Today";
-
-    const priorityDetailDiv = document.createElement("div");
-    priorityDetailDiv.classList.add("detail-content");
-
-    const priorityHeader = document.createElement("p");
-    priorityHeader.classList.add("detail-header");
-    priorityHeader.textContent = "Priority:";
-
-    const priorityValue = document.createElement("p");
-    priorityValue.textContent = `${priority}`;
-
-    const dueDateDetailDiv = document.createElement("div");
-    dueDateDetailDiv.classList.add("detail-content");
-
-    const dueDateHeader = document.createElement("p");
-    dueDateHeader.classList.add("detail-header");
-    dueDateHeader.textContent = "Due Date:";
-
-    const dueDateValue = document.createElement("p");
-    dueDateValue.textContent = `${date.textContent}`;
-
-    const detailsDetailDiv = document.createElement("div");
-    detailsDetailDiv.classList.add("detail-content");
-
-    const detailsHeader = document.createElement("p");
-    detailsHeader.classList.add("detail-header");
-    detailsHeader.textContent = "Details:";
-
-    const detail = document.createElement("p");
-    detail.textContent = `${detailValue}`;
-
-    projectDetailDiv.appendChild(projectHeader);
-    projectDetailDiv.appendChild(projectValue);
-    priorityDetailDiv.appendChild(priorityHeader);
-    priorityDetailDiv.appendChild(priorityValue);
-    dueDateDetailDiv.appendChild(dueDateHeader);
-    dueDateDetailDiv.appendChild(dueDateValue);
-    detailsDetailDiv.appendChild(detailsHeader);
-    detailsDetailDiv.appendChild(detail);
-
-    detailListDiv.appendChild(projectDetailDiv);
-    detailListDiv.appendChild(priorityDetailDiv);
-    detailListDiv.appendChild(dueDateDetailDiv);
-    detailListDiv.appendChild(detailsDetailDiv);
-
-    detailContainerDiv.appendChild(titleHeading);
-    detailContainerDiv.appendChild(detailListDiv);
-
-    document.body.appendChild(detailContainerDiv);
-
-    this._showDetail(detailButton, detailContainerDiv);
-    this._removeDetail(detailContainerDiv);
-    this._removeNote(note, detailContainerDiv, binIcon);
+    this._showDetail(detailButton, title, detailValue, date, priority, note);
+    this._removeDetail();
+    this._removeNote(note, binIcon);
     this._showEdit(editIcon, title, detailValue, date, priority, note);
     this._removeEdit();
+  }
+
+  _projectValue(note) {
+    if (note.classList.contains("today")) {
+      return "today";
+    } else if (note.classList.contains("week")) {
+      return "week";
+    } else if (projectSidebar.classList.contains("project")) {
+      return "project";
+    } else if (noteSidebar.classList.contains("stickynote")) {
+      return "note";
+    }
   }
 
   _categorizeNote(note) {
@@ -295,9 +236,15 @@ export class createNote {
     });
   }
 
-  _showDetail(detailButton, detailContainer) {
+  _showDetail(detailButton, title, detailValue, date, priority, note) {
     detailButton.addEventListener("click", () => {
-      detailContainer.classList.remove("hide");
+      this.detailTitle.textContent = title.textContent;
+      this.detailProject.textContent = this._projectValue(note);
+      this.detailPriority.textContent = priority;
+      this.detailDate.textContent = date.textContent;
+      this.detailDetails.textContent = detailValue;
+
+      this.detailContainer.classList.remove("hide");
       this.overlay.classList.remove("hide");
     });
   }
@@ -313,17 +260,16 @@ export class createNote {
     this.formContainer.classList.add("hide");
   }
 
-  _removeDetail(detailContainerDiv) {
+  _removeDetail() {
     this.overlay.addEventListener("click", () => {
-      detailContainerDiv.classList.add("hide");
+      this.detailContainer.classList.add("hide");
       this.overlay.classList.add("hide");
     });
   }
 
-  _removeNote(note, detailContainerDiv, binIcon) {
+  _removeNote(note, binIcon) {
     binIcon.addEventListener("click", () => {
       note.remove();
-      detailContainerDiv.remove();
     });
   }
 
@@ -405,8 +351,6 @@ export class createNote {
             date: this._customDate(this.todoDate.value),
             priority: this._getPriority(this.todoCheckbox),
           };
-
-          console.log(newForm.priority);
 
           this.storeInfo.push(this.newForm);
 
