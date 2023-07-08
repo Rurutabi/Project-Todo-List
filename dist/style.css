@@ -315,3 +315,17 @@ button:hover {
   color: rgb(30, 99, 190);
   font-size: 1.5rem;
 }
+
+.plist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px;
+  margin-top: 5px;
+  overflow: auto;
+  height: 100px;
+}
+
+.project-list {
+  font-size: 1rem;
+}

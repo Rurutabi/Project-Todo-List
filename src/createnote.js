@@ -11,12 +11,26 @@ export class createNote {
   projectSidebar = document.querySelector(".project-sidebar");
   noteSidebar = document.querySelector(".note-sidebar");
 
-  //Todo
+  //Form list
+  todoList = document.querySelector(".todo-list");
+  projectList = document.querySelector(".project-list");
+  noteList = document.querySelector(".note-list");
+
+  //Todo Form
+  todoForm = document.querySelector(".todo-form");
   todoTitle = document.querySelector(".todo-title");
   todoDetail = document.querySelector(".todo-detail");
   todoButton = document.querySelector(".todo-button");
   todoDate = document.querySelector(".date");
   todoCheckbox = document.querySelectorAll(".checkbox-button");
+
+  //Project Form
+  projectForm = document.querySelector(".project-form");
+  projectButton = document.querySelector(".project-button");
+  projectTitle = document.querySelector(".project-title");
+
+  //Note Form
+  noteForm = document.querySelector(".note-form");
 
   //Detail
   detailContainer = document.querySelector(".detail-container");
@@ -43,8 +57,10 @@ export class createNote {
     this._removeOverlay();
     this._storeValue();
     this._highlightSidebar();
+    this._changeForm();
   }
 
+  //Sidebar
   _highlightSidebar() {
     this.homeSidebar.addEventListener("click", () => {
       this._removeHighlight();
@@ -68,40 +84,6 @@ export class createNote {
     });
   }
 
-  _noteTitle(note) {
-    this.homeSidebar.addEventListener("click", () => {
-      note.classList.remove("hide");
-    });
-    this.todaySidebar.addEventListener("click", () => {
-      if (note.classList.contains("today") === false) {
-        note.classList.add("hide");
-      } else if (note.classList.contains("today") === true) {
-        note.classList.remove("hide");
-      }
-    });
-    this.weekSidebar.addEventListener("click", () => {
-      if (note.classList.contains("week") === false) {
-        note.classList.add("hide");
-      } else if (note.classList.contains("week") === true) {
-        note.classList.remove("hide");
-      }
-    });
-    this.projectSidebar.addEventListener("click", () => {
-      if (note.classList.contains("project") === false) {
-        note.classList.add("hide");
-      } else if (note.classList.contains("project") === true) {
-        note.classList.remove("hide");
-      }
-    });
-    this.noteSidebar.addEventListener("click", () => {
-      if (note.classList.contains("Note") === false) {
-        note.classList.add("hide");
-      } else if (note.classList.contains("Note") === true) {
-        note.classList.remove("hide");
-      }
-    });
-  }
-
   _removeHighlight() {
     this.homeSidebar.classList.remove("highlight");
     this.todaySidebar.classList.remove("highlight");
@@ -110,11 +92,12 @@ export class createNote {
     this.noteSidebar.classList.remove("highlight");
   }
 
+  //Note
   _addNote(titleValue, detailValue, dateValue, priority) {
     const note = document.createElement("div");
     note.className = "note";
     this._categorizeNote(note);
-    this._noteTitle(note);
+    this._noteClass(note);
 
     this._priorityColor(priority, note);
     this.noteContainer.appendChild(note);
@@ -154,10 +137,43 @@ export class createNote {
     noteRight.appendChild(binIcon);
 
     this._showDetail(detailButton, title, detailValue, date, priority, note);
-    this._removeDetail();
+    // this._removeDetail();
     this._removeNote(note, binIcon);
     this._showEdit(editIcon, title, detailValue, date, priority, note);
-    this._removeEdit();
+  }
+
+  _noteClass(note) {
+    this.homeSidebar.addEventListener("click", () => {
+      note.classList.remove("hide");
+    });
+    this.todaySidebar.addEventListener("click", () => {
+      if (note.classList.contains("today") === false) {
+        note.classList.add("hide");
+      } else if (note.classList.contains("today") === true) {
+        note.classList.remove("hide");
+      }
+    });
+    this.weekSidebar.addEventListener("click", () => {
+      if (note.classList.contains("week") === false) {
+        note.classList.add("hide");
+      } else if (note.classList.contains("week") === true) {
+        note.classList.remove("hide");
+      }
+    });
+    this.projectSidebar.addEventListener("click", () => {
+      if (note.classList.contains("project") === false) {
+        note.classList.add("hide");
+      } else if (note.classList.contains("project") === true) {
+        note.classList.remove("hide");
+      }
+    });
+    this.noteSidebar.addEventListener("click", () => {
+      if (note.classList.contains("Note") === false) {
+        note.classList.add("hide");
+      } else if (note.classList.contains("Note") === true) {
+        note.classList.remove("hide");
+      }
+    });
   }
 
   _projectValue(note) {
@@ -186,13 +202,22 @@ export class createNote {
     }
   }
 
-  _removeEdit() {
-    this.overlay.addEventListener("click", () => {
-      this.editContainer.classList.add("hide");
-      this.overlay.classList.add("hide");
-      this.editTitle.value = "";
-      this.editDetail.value = "";
-      this.editDate.value = "";
+  _removeNote(note, binIcon) {
+    binIcon.addEventListener("click", () => {
+      note.remove();
+    });
+  }
+
+  //Detail
+  _showDetail(detailButton, title, detailValue, date, priority, note) {
+    detailButton.addEventListener("click", () => {
+      this.detailTitle.textContent = title.textContent;
+      this.detailProject.textContent = this._projectValue(note);
+      this.detailPriority.textContent = priority;
+      this.detailDate.textContent = date.textContent;
+      this.detailDetails.textContent = detailValue;
+      this.detailContainer.classList.remove("hide");
+      this.overlay.classList.remove("hide");
     });
   }
 
@@ -220,13 +245,20 @@ export class createNote {
 
           this._priorityColor(this._getPriority(this.editCheckbox), note);
           priority = this._getPriority(this.editCheckbox);
-          this.editContainer.classList.add("hide");
-          this.overlay.classList.add("hide");
+          this._removeEdit();
         }
       };
 
       this.editButton.addEventListener("click", this._editNote);
     });
+  }
+
+  _removeEdit() {
+    this.editContainer.classList.add("hide");
+    this.overlay.classList.add("hide");
+    this.editTitle.value = "";
+    this.editDetail.value = "";
+    this.editDate.value = "";
   }
 
   _showForm() {
@@ -236,41 +268,9 @@ export class createNote {
     });
   }
 
-  _showDetail(detailButton, title, detailValue, date, priority, note) {
-    detailButton.addEventListener("click", () => {
-      this.detailTitle.textContent = title.textContent;
-      this.detailProject.textContent = this._projectValue(note);
-      this.detailPriority.textContent = priority;
-      this.detailDate.textContent = date.textContent;
-      this.detailDetails.textContent = detailValue;
-
-      this.detailContainer.classList.remove("hide");
-      this.overlay.classList.remove("hide");
-    });
-  }
-
-  _removeOverlay() {
-    this.overlay.addEventListener("click", () => {
-      this._removeForm();
-    });
-  }
-
   _removeForm() {
     this.overlay.classList.add("hide");
     this.formContainer.classList.add("hide");
-  }
-
-  _removeDetail() {
-    this.overlay.addEventListener("click", () => {
-      this.detailContainer.classList.add("hide");
-      this.overlay.classList.add("hide");
-    });
-  }
-
-  _removeNote(note, binIcon) {
-    binIcon.addEventListener("click", () => {
-      note.remove();
-    });
   }
 
   _emptyForm() {
@@ -352,7 +352,9 @@ export class createNote {
             priority: this._getPriority(this.todoCheckbox),
           };
 
-          this.storeInfo.push(this.newForm);
+          this.storeInfo.push(newForm);
+
+          console.log(this.storeInfo);
 
           this._addNote(
             newForm.title,
@@ -365,6 +367,51 @@ export class createNote {
           this._emptyForm();
         }
       }
+    });
+
+    this.projectButton.addEventListener("click", (e) => {
+      if (this.projectTitle === "") {
+        e.preventDefault();
+        // if (this.homeSidebar.classList.contains("highlight") !== true) {
+
+        // }
+      }
+    });
+  }
+
+  _changeForm() {
+    this.todoList.addEventListener("click", () => {
+      this._hideForm();
+      this.todoForm.classList.remove("hide");
+      this.todoList.classList.add("highlight");
+    });
+    this.projectList.addEventListener("click", () => {
+      this._hideForm();
+      this.projectForm.classList.remove("hide");
+      this.projectList.classList.add("highlight");
+    });
+    this.noteList.addEventListener("click", () => {
+      this._hideForm();
+      this.noteForm.classList.remove("hide");
+      this.noteList.classList.add("highlight");
+    });
+  }
+
+  _hideForm() {
+    this.todoForm.classList.add("hide");
+    this.todoList.classList.remove("highlight");
+    this.projectForm.classList.add("hide");
+    this.projectList.classList.remove("highlight");
+    this.noteForm.classList.add("hide");
+    this.noteList.classList.remove("highlight");
+  }
+
+  _removeOverlay() {
+    this.overlay.addEventListener("click", () => {
+      this.overlay.classList.add("hide");
+      this.detailContainer.classList.add("hide");
+      this._removeForm();
+      this._removeEdit();
     });
   }
 }
