@@ -23,10 +23,20 @@
         <div class="content-container">
           <div class="sidebar">
             <div class="content-list">
-              <li class="home-sidebar highlight">Home</li>
-              <li class="today-sidebar">Today</li>
+              <li class="home-sidebar">Home</li>
+              <li class="today-sidebar highlight">Today</li>
               <li class="week-sidebar">Week</li>
-              <li class="project-sidebar">Project</li>
+              <div>
+                <li class="project-sidebar">Project</li>
+                <div class="plist-container">
+                  <li class="project-list">example1</li>
+                  <li class="project-list">example2</li>
+                  <li class="project-list">example3</li>
+                  <li class="project-list">example1</li>
+                  <li class="project-list">example2</li>
+                  <li class="project-list">example3</li>
+                </div>
+              </div>
               <li class="note-sidebar">Note</li>
             </div>
             <div class="create-new">
@@ -54,9 +64,9 @@
       <h3 class="form-header">Create a new...</h3>
       <div class="form-content">
         <div class="form-sidebar">
-          <li>To Do</li>
-          <li>Project</li>
-          <li>Note</li>
+          <li class="todo-list highlight">To Do</li>
+          <li class="project-list">Project</li>
+          <li class="note-list">Note</li>
         </div>
 
         <!-- To do form -->
@@ -137,18 +147,18 @@
         <form action="" class="form project-form hide">
           <div class="top-form">
             <input
-              class="top-input title"
+              class="top-input title project-title"
               type="text"
               id="title"
               name="title"
-              placeholder="Build Portfoilo"
+              placeholder="Title : Learn React"
               required
             />
           </div>
           <div class="bottom-form">
             <div class="button-container">
               <input
-                class="submit-button"
+                class="submit-button project-button"
                 type="submit"
                 value="Create a Project"
               />
