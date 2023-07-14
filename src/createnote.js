@@ -74,10 +74,6 @@ export class createNote {
       this._removeHighlight();
       this.weekSidebar.classList.add("highlight");
     });
-    this.projectSidebar.addEventListener("click", () => {
-      this._removeHighlight();
-      this.projectSidebar.classList.add("highlight");
-    });
     this.noteSidebar.addEventListener("click", () => {
       this._removeHighlight();
       this.noteSidebar.classList.add("highlight");
@@ -88,7 +84,6 @@ export class createNote {
     this.homeSidebar.classList.remove("highlight");
     this.todaySidebar.classList.remove("highlight");
     this.weekSidebar.classList.remove("highlight");
-    this.projectSidebar.classList.remove("highlight");
     this.noteSidebar.classList.remove("highlight");
   }
 
@@ -160,13 +155,6 @@ export class createNote {
         note.classList.remove("hide");
       }
     });
-    this.projectSidebar.addEventListener("click", () => {
-      if (note.classList.contains("project") === false) {
-        note.classList.add("hide");
-      } else if (note.classList.contains("project") === true) {
-        note.classList.remove("hide");
-      }
-    });
     this.noteSidebar.addEventListener("click", () => {
       if (note.classList.contains("Note") === false) {
         note.classList.add("hide");
@@ -181,8 +169,6 @@ export class createNote {
       return "today";
     } else if (note.classList.contains("week")) {
       return "week";
-    } else if (projectSidebar.classList.contains("project")) {
-      return "project";
     } else if (noteSidebar.classList.contains("stickynote")) {
       return "note";
     }
@@ -195,8 +181,6 @@ export class createNote {
       note.classList.add("today");
     } else if (this.weekSidebar.classList.contains("highlight")) {
       note.classList.add("week");
-    } else if (this.projectSidebar.classList.contains("highlight")) {
-      note.classList.add("project");
     } else if (this.noteSidebar.classList.contains("highlight")) {
       note.classList.add("stickynote");
     }
