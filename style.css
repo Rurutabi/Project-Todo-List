@@ -20,7 +20,8 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
 }
-li {
+li,
+span {
   list-style-type: none;
   font-size: 1.2rem;
 }
@@ -320,12 +321,14 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 4px;
-  margin-top: 5px;
-  overflow: auto;
-  height: 100px;
 }
 
 .project-list {
   font-size: 1rem;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
