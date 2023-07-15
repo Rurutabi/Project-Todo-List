@@ -139,10 +139,17 @@ export class createNote {
   }
 
   _addProject(title) {
-    const projectTitle = document.createElement("li");
-    projectTitle.textContent = title;
-    projectTitle.className = "project-title";
-    this.listContainer.appendChild(projectTitle);
+    const subProject = document.createElement("li");
+    subProject.textContent = title;
+    subProject.className = "sub-project";
+    this.listContainer.appendChild(subProject);
+    this._addOverflow();
+  }
+
+  _addOverflow() {
+    if (this.listContainer.clientHeight > 118) {
+      this.listContainer.style.overflowY = "auto";
+    }
   }
 
   _noteClass(note) {
@@ -371,6 +378,8 @@ export class createNote {
         console.log(this.storeProject);
 
         this._addProject(newProject.title);
+        this.projectTitle.value = "";
+        this._removeForm();
       }
     });
   }
