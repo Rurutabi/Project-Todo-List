@@ -80,7 +80,7 @@ button:hover {
 .content-list {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 26px;
 }
 
 .note-container {
@@ -317,18 +317,23 @@ button:hover {
   font-size: 1.5rem;
 }
 
-.plist-container {
+.project-container {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.project-list {
-  font-size: 1rem;
 }
 
 .list-container {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  font-size: 0.8rem;
+
+  overflow: auto;
+  /* display: none; */
+}
+
+.project-title {
+  font-size: 1rem;
+  margin: 5px 0px -5px 10px;
 }
