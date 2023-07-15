@@ -15,6 +15,7 @@ export class createNote {
   todoList = document.querySelector(".todo-list");
   projectList = document.querySelector(".project-list");
   noteList = document.querySelector(".note-list");
+  listContainer = document.querySelector(".list-container");
 
   //Todo Form
   todoForm = document.querySelector(".todo-form");
@@ -50,7 +51,8 @@ export class createNote {
   editMedium = document.querySelector(".edit-medium");
   editHigh = document.querySelector(".edit-high");
   editCheckbox = document.querySelectorAll(".edit-checkbox");
-  storeInfo = [];
+  storeNote = [];
+  storeProject = [];
 
   constructor() {
     this._showForm();
@@ -132,9 +134,15 @@ export class createNote {
     noteRight.appendChild(binIcon);
 
     this._showDetail(detailButton, title, detailValue, date, priority, note);
-    // this._removeDetail();
     this._removeNote(note, binIcon);
     this._showEdit(editIcon, title, detailValue, date, priority, note);
+  }
+
+  _addProject(title) {
+    const projectTitle = document.createElement("li");
+    projectTitle.textContent = title;
+    projectTitle.className = "project-title";
+    this.listContainer.appendChild(projectTitle);
   }
 
   _noteClass(note) {
@@ -329,22 +337,20 @@ export class createNote {
       ) {
         e.preventDefault();
         if (this.homeSidebar.classList.contains("highlight") !== true) {
-          const newForm = {
+          const newNote = {
             title: this.todoTitle.value,
             detail: this.todoDetail.value,
             date: this._customDate(this.todoDate.value),
             priority: this._getPriority(this.todoCheckbox),
           };
 
-          this.storeInfo.push(newForm);
-
-          console.log(this.storeInfo);
+          this.storeNote.push(newNote);
 
           this._addNote(
-            newForm.title,
-            newForm.detail,
-            newForm.date,
-            newForm.priority
+            newNote.title,
+            newNote.detail,
+            newNote.date,
+            newNote.priority
           );
 
           this._removeForm();
@@ -354,11 +360,17 @@ export class createNote {
     });
 
     this.projectButton.addEventListener("click", (e) => {
-      if (this.projectTitle === "") {
+      if (this.projectTitle.value !== "") {
         e.preventDefault();
-        // if (this.homeSidebar.classList.contains("highlight") !== true) {
+        const newProject = {
+          title: this.projectTitle.value,
+        };
 
-        // }
+        this.storeProject.push(newProject);
+
+        console.log(this.storeProject);
+
+        this._addProject(newProject.title);
       }
     });
   }
