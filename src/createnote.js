@@ -53,6 +53,7 @@ export class createNote {
   editCheckbox = document.querySelectorAll(".edit-checkbox");
   storeNote = [];
   storeProject = [];
+  projectDetail = [];
 
   constructor() {
     this._showForm();
@@ -141,15 +142,30 @@ export class createNote {
   _addProject(title) {
     const subProject = document.createElement("li");
     subProject.textContent = title;
+
     subProject.className = "sub-project";
     this.listContainer.appendChild(subProject);
+    this.projectDetail.push(subProject);
     this._addOverflow();
+    this._selectSubproject(subProject);
   }
 
   _addOverflow() {
     if (this.listContainer.clientHeight > 118) {
       this.listContainer.style.overflowY = "auto";
     }
+  }
+
+  _selectSubproject(subProject) {
+    subProject.addEventListener("click", () => {
+      this._removeHighlight();
+      this.projectDetail.forEach((value) =>
+        value.classList.remove("highlight")
+      );
+      // this.projectDetail.forEach((value) => value.classList.add("highlight"));
+      // subProject.classList.remove("highlight");
+      subProject.classList.add("highlight");
+    });
   }
 
   _noteClass(note) {
