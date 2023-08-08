@@ -93,9 +93,9 @@ export class createNote {
   //Note
   _addNote(titleValue, detailValue, dateValue, priority) {
     const note = document.createElement("div");
-    note.className = "note";
     this._categorizeNote(note);
     this._noteClass(note);
+    this._addprojectClass(note);
 
     this._priorityColor(priority, note);
     this.noteContainer.appendChild(note);
@@ -142,8 +142,9 @@ export class createNote {
   _addProject(title) {
     const subProject = document.createElement("li");
     subProject.textContent = title;
+    subProject.classList.add(subProject.textContent);
+    subProject.classList.add("sub-project");
 
-    subProject.className = "sub-project";
     this.listContainer.appendChild(subProject);
     this.projectDetail.push(subProject);
     this._addOverflow();
@@ -159,13 +160,21 @@ export class createNote {
   _selectSubproject(subProject) {
     subProject.addEventListener("click", () => {
       this._removeHighlight();
-      this.projectDetail.forEach((value) =>
-        value.classList.remove("highlight")
-      );
-      // this.projectDetail.forEach((value) => value.classList.add("highlight"));
-      // subProject.classList.remove("highlight");
+      this.projectDetail.forEach((value) => {
+        value.classList.remove("highlight");
+      });
       subProject.classList.add("highlight");
     });
+  }
+
+  _addprojectClass(note) {
+    for (const element of this.projectDetail) {
+      // element.addEventListener("click", () => {
+      if (element.classList.contains("highlight")) {
+        note.classList.add(element.textContent);
+      }
+      // });
+    }
   }
 
   _noteClass(note) {
@@ -194,6 +203,14 @@ export class createNote {
       }
     });
   }
+
+  // _projectClass() {
+  //   subProject.addEventListener("click", () => {
+  //     this.projectDetail.forEach((value) => {});
+
+  //     subProject.classList.add("highlight");
+  //   });
+  // }
 
   _projectValue(note) {
     if (note.classList.contains("today")) {
@@ -390,9 +407,6 @@ export class createNote {
         };
 
         this.storeProject.push(newProject);
-
-        console.log(this.storeProject);
-
         this._addProject(newProject.title);
         this.projectTitle.value = "";
         this._removeForm();
