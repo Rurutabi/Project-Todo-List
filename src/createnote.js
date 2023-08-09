@@ -88,16 +88,19 @@ export class createNote {
     this.todaySidebar.classList.remove("highlight");
     this.weekSidebar.classList.remove("highlight");
     this.noteSidebar.classList.remove("highlight");
+
+    this.projectDetail.forEach((value) => {
+      value.classList.remove("highlight");
+    });
   }
 
   //Note
   _addNote(titleValue, detailValue, dateValue, priority) {
     const note = document.createElement("div");
     this._categorizeNote(note);
-    this._noteClass(note);
-    this._addprojectClass(note);
-
+    this._highlightNote(note);
     this._priorityColor(priority, note);
+    note.classList.add("note");
     this.noteContainer.appendChild(note);
 
     const noteLeft = document.createElement("div");
@@ -167,17 +170,7 @@ export class createNote {
     });
   }
 
-  _addprojectClass(note) {
-    for (const element of this.projectDetail) {
-      // element.addEventListener("click", () => {
-      if (element.classList.contains("highlight")) {
-        note.classList.add(element.textContent);
-      }
-      // });
-    }
-  }
-
-  _noteClass(note) {
+  _highlightNote(note) {
     this.homeSidebar.addEventListener("click", () => {
       note.classList.remove("hide");
     });
@@ -202,24 +195,19 @@ export class createNote {
         note.classList.remove("hide");
       }
     });
-  }
 
-  // _projectClass() {
-  //   subProject.addEventListener("click", () => {
-  //     this.projectDetail.forEach((value) => {});
-
-  //     subProject.classList.add("highlight");
-  //   });
-  // }
-
-  _projectValue(note) {
-    if (note.classList.contains("today")) {
-      return "today";
-    } else if (note.classList.contains("week")) {
-      return "week";
-    } else if (noteSidebar.classList.contains("stickynote")) {
-      return "note";
-    }
+    this.projectDetail.forEach((element) => {
+      element.addEventListener("click", () => {
+        const allNotes = document.querySelectorAll(".note");
+        allNotes.forEach((note) => {
+          if (note.classList.contains(element.textContent)) {
+            note.classList.remove("hide");
+          } else {
+            note.classList.add("hide");
+          }
+        });
+      });
+    });
   }
 
   _categorizeNote(note) {
@@ -231,6 +219,12 @@ export class createNote {
       note.classList.add("week");
     } else if (this.noteSidebar.classList.contains("highlight")) {
       note.classList.add("stickynote");
+    }
+
+    for (const element of this.projectDetail) {
+      if (element.classList.contains("highlight")) {
+        note.classList.add(element.textContent);
+      }
     }
   }
 
@@ -251,6 +245,16 @@ export class createNote {
       this.detailContainer.classList.remove("hide");
       this.overlay.classList.remove("hide");
     });
+  }
+
+  _projectValue(note) {
+    if (note.classList.contains("today")) {
+      return "today";
+    } else if (note.classList.contains("week")) {
+      return "week";
+    } else if (noteSidebar.classList.contains("stickynote")) {
+      return "note";
+    }
   }
 
   _showEdit(editIcon, title, detailValue, date, priority, note) {
