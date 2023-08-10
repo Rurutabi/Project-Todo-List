@@ -84,7 +84,8 @@ button:hover {
 .note-container {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  /* flex: 1; */
+  width: 100%;
   padding: 12px;
   gap: 12px;
   background-color: #f6f1f1;
@@ -328,23 +329,22 @@ button:hover {
   font-size: 1rem;
   margin: 15px 10px -5px 10px;
 }
-
 .sticky-container {
   display: flex;
-  flex-direction: column;
-  flex: 0.5;
+  width: 100%;
   flex-wrap: wrap;
-  align-items: left;
-  padding: 12px;
+  align-items: flex-start;
   gap: 12px;
+  padding: 12px;
+  overflow-y: auto;
 }
 
 .sticky-note {
   background-color: #146c94;
-  width: 200px;
+  width: 300px;
   padding: 12px;
+  margin-bottom: 6px; /* Adjust the margin as needed */
 }
-
 .hide {
   display: none;
 }
