@@ -2,6 +2,7 @@ export class createNote {
   noteContainer = document.querySelector(".note-container");
   createButton = document.querySelector(".create-button");
   formContainer = document.querySelector(".form-container");
+  stickyContainer = document.querySelector(".sticky-container");
   overlay = document.querySelector(".overlay");
 
   //Sidebar
@@ -31,7 +32,10 @@ export class createNote {
   projectTitle = document.querySelector(".project-title");
 
   //Note Form
-  noteForm = document.querySelector(".note-form");
+  stickynoteForm = document.querySelector(".note-form");
+  stickynoteTitle = document.querySelector(".sticky-title");
+  stickynoteDetail = document.querySelector(".sticky-detail");
+  stickynoteButton = document.querySelector(".sticky-button");
 
   //Detail
   detailContainer = document.querySelector(".detail-container");
@@ -416,6 +420,57 @@ export class createNote {
         this._removeForm();
       }
     });
+
+    this.stickynoteButton.addEventListener("click", (e) => {
+      if (this.stickynoteTitle !== "" && this.stickynoteDetail !== "") {
+        e.preventDefault();
+
+        const newNote = {
+          title: this.stickynoteTitle.value,
+          detail: this.stickynoteDetail.value,
+        };
+
+        this._addStickynote(newNote.title, newNote.detail);
+        this.stickynoteTitle.value = "";
+        this.stickynoteDetail.value = "";
+        this._removeForm();
+      }
+    });
+  }
+
+  _addStickynote(title, detail) {
+    // Create the sticky note
+    const stickyNote = document.createElement("div");
+    stickyNote.className = "sticky-note";
+
+    // Create the sticky header
+    const stickyHeader = document.createElement("div");
+    stickyHeader.className = "sticky-header";
+
+    // Create the sticky title
+    const stickyTitle = document.createElement("h3");
+    stickyTitle.className = "sticky-title";
+    stickyTitle.textContent = title;
+
+    // Create the close icon
+    const closeIcon = document.createElement("i");
+    closeIcon.className = "fa-solid fa-xmark";
+
+    // Create the sticky detail
+    const stickyDetail = document.createElement("p");
+    stickyDetail.className = "sticky-detail";
+    stickyDetail.textContent = detail;
+
+    // Append elements to their respective parents
+    this.stickyContainer.appendChild(stickyNote);
+    stickyNote.appendChild(stickyHeader);
+    stickyNote.appendChild(stickyDetail);
+    stickyHeader.appendChild(stickyTitle);
+    stickyHeader.appendChild(closeIcon);
+
+    stickyNote.style.height = 70 + stickyDetail.clientHeight + "px";
+
+    console.log(stickyNote.style.height);
   }
 
   _changeForm() {
@@ -431,7 +486,7 @@ export class createNote {
     });
     this.noteList.addEventListener("click", () => {
       this._hideForm();
-      this.noteForm.classList.remove("hide");
+      this.stickynoteForm.classList.remove("hide");
       this.noteList.classList.add("highlight");
     });
   }
@@ -441,7 +496,7 @@ export class createNote {
     this.todoList.classList.remove("highlight");
     this.projectForm.classList.add("hide");
     this.projectList.classList.remove("highlight");
-    this.noteForm.classList.add("hide");
+    this.stickynoteForm.classList.add("hide");
     this.noteList.classList.remove("highlight");
   }
 

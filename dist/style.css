@@ -93,7 +93,7 @@ button:hover {
 }
 
 .create-button {
-  background-color: #19a7ce;
+  background-color: #ebff7b;
   padding: 12px;
 }
 
@@ -329,22 +329,33 @@ button:hover {
   font-size: 1rem;
   margin: 15px 10px -5px 10px;
 }
+
 .sticky-container {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 12px;
+  column-gap: 12px;
+  row-gap: 6px;
   padding: 12px;
   overflow-y: auto;
+  background-color: #f6f1f1;
+  word-wrap: break-word;
+}
+
+.sticky-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
 }
 
 .sticky-note {
-  background-color: #146c94;
+  background-color: #a2b8dd;
+  box-shadow: var(--shadow);
   width: 300px;
+  height: 100px;
   padding: 12px;
-  margin-bottom: 6px; /* Adjust the margin as needed */
 }
+
 .hide {
   display: none;
 }
