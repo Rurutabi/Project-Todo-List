@@ -70,21 +70,31 @@ export class createNote {
   //Sidebar
   _highlightSidebar() {
     this.homeSidebar.addEventListener("click", () => {
+      this._showNote();
       this._removeHighlight();
       this.homeSidebar.classList.add("highlight");
     });
     this.todaySidebar.addEventListener("click", () => {
+      this._showNote();
       this._removeHighlight();
       this.todaySidebar.classList.add("highlight");
     });
     this.weekSidebar.addEventListener("click", () => {
+      this._showNote();
       this._removeHighlight();
       this.weekSidebar.classList.add("highlight");
     });
     this.noteSidebar.addEventListener("click", () => {
       this._removeHighlight();
+      this.noteContainer.classList.add("hide");
+      this.stickyContainer.classList.remove("hide");
       this.noteSidebar.classList.add("highlight");
     });
+  }
+
+  _showNote() {
+    this.stickyContainer.classList.add("hide");
+    this.noteContainer.classList.remove("hide");
   }
 
   _removeHighlight() {
@@ -429,7 +439,11 @@ export class createNote {
           title: this.stickynoteTitle.value,
           detail: this.stickynoteDetail.value,
         };
+        this.noteContainer.classList.add("hide");
 
+        this.stickyContainer.classList.remove("hide");
+        this._removeHighlight();
+        this.noteSidebar.classList.add("highlight");
         this._addStickynote(newNote.title, newNote.detail);
         this.stickynoteTitle.value = "";
         this.stickynoteDetail.value = "";
