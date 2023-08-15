@@ -6,4 +6,4 @@ class indexJs {
   }
 }
 
-const test = new indexJs();
+const newList = new indexJs();

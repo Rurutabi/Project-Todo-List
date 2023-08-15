@@ -212,12 +212,13 @@ export class createNote {
 
     this.projectDetail.forEach((element) => {
       element.addEventListener("click", () => {
+        note.classList.add("hide");
         const allNotes = document.querySelectorAll(".note");
-        allNotes.forEach((note) => {
-          if (note.classList.contains(element.textContent)) {
-            note.classList.remove("hide");
+        allNotes.forEach((value) => {
+          if (value.classList.contains(element.textContent)) {
+            value.classList.remove("hide");
           } else {
-            note.classList.add("hide");
+            value.classList.add("hide");
           }
         });
       });
@@ -252,7 +253,7 @@ export class createNote {
   _showDetail(detailButton, title, detailValue, date, priority, note) {
     detailButton.addEventListener("click", () => {
       this.detailTitle.textContent = title.textContent;
-      this.detailProject.textContent = this._projectValue(note);
+      // this.detailProject.textContent = this._projectValue(note);
       this.detailPriority.textContent = priority;
       this.detailDate.textContent = date.textContent;
       this.detailDetails.textContent = detailValue;
@@ -268,6 +269,8 @@ export class createNote {
       return "week";
     } else if (noteSidebar.classList.contains("stickynote")) {
       return "note";
+    } else {
+      console.log("somethin wrong");
     }
   }
 
