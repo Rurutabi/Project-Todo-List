@@ -253,7 +253,7 @@ export class createNote {
   _showDetail(detailButton, title, detailValue, date, priority, note) {
     detailButton.addEventListener("click", () => {
       this.detailTitle.textContent = title.textContent;
-      // this.detailProject.textContent = this._projectValue(note);
+      this.detailProject.textContent = this._projectValue(note);
       this.detailPriority.textContent = priority;
       this.detailDate.textContent = date.textContent;
       this.detailDetails.textContent = detailValue;
@@ -267,10 +267,14 @@ export class createNote {
       return "today";
     } else if (note.classList.contains("week")) {
       return "week";
-    } else if (noteSidebar.classList.contains("stickynote")) {
-      return "note";
     } else {
-      console.log("somethin wrong");
+      for (const element of this.projectDetail) {
+        if (element.classList.contains("highlight")) {
+          let temp = "";
+          temp = element.textContent;
+          return temp;
+        }
+      }
     }
   }
 
