@@ -476,6 +476,7 @@ export class createNote {
     // Create the close icon
     const closeIcon = document.createElement("i");
     closeIcon.className = "fa-solid fa-xmark";
+    this._removeSticky(stickyNote, closeIcon);
 
     // Create the sticky detail
     const stickyDetail = document.createElement("p");
@@ -492,6 +493,12 @@ export class createNote {
     stickyNote.style.height = 70 + stickyDetail.clientHeight + "px";
 
     console.log(stickyNote.style.height);
+  }
+
+  _removeSticky(stickyNote, closeIcon) {
+    closeIcon.addEventListener("click", () => {
+      stickyNote.remove();
+    });
   }
 
   _changeForm() {
