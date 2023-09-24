@@ -10,7 +10,7 @@ export class createNote {
   todaySidebar = document.querySelector(".today-sidebar");
   weekSidebar = document.querySelector(".week-sidebar");
   projectSidebar = document.querySelector(".project-sidebar");
-  noteSidebar = document.querySelector(".note-sidebar");
+  stickynoteSidbar = document.querySelector(".note-sidebar");
 
   //Form list
   todoList = document.querySelector(".todo-list");
@@ -61,7 +61,7 @@ export class createNote {
   constructor() {
     this._showForm();
     this._removeOverlay();
-    this._storeValue();
+    this._createElement();
     this._highlightSidebar();
     this._changeForm();
   }
@@ -83,11 +83,11 @@ export class createNote {
       this._removeHighlight();
       this.weekSidebar.classList.add("highlight");
     });
-    this.noteSidebar.addEventListener("click", () => {
+    this.stickynoteSidbar.addEventListener("click", () => {
       this._removeHighlight();
       this.noteContainer.classList.add("hide");
       this.stickyContainer.classList.remove("hide");
-      this.noteSidebar.classList.add("highlight");
+      this.stickynoteSidbar.classList.add("highlight");
     });
   }
 
@@ -100,7 +100,7 @@ export class createNote {
     this.homeSidebar.classList.remove("highlight");
     this.todaySidebar.classList.remove("highlight");
     this.weekSidebar.classList.remove("highlight");
-    this.noteSidebar.classList.remove("highlight");
+    this.stickynoteSidbar.classList.remove("highlight");
 
     this.projectDetail.forEach((value) => {
       value.classList.remove("highlight");
@@ -108,11 +108,11 @@ export class createNote {
   }
 
   //Note
-  _addNote(titleValue, detailValue, dateValue, priority, subProject) {
+  _addNote(titleValue, detailValue, dateValue, priority) {
     const note = document.createElement("div");
 
     this._categorizeNote(note);
-    this._highlightNote(note, subProject);
+    this._highlightNote(note);
     this._priorityColor(priority, note);
     note.classList.add("note");
     this.noteContainer.appendChild(note);
@@ -166,7 +166,7 @@ export class createNote {
     this.projectDetail.push(subProject);
 
     this._addOverflow();
-    this._selectSubproject(subProject);
+    this._highlightProject(subProject);
   }
 
   _projectNote() {
@@ -174,6 +174,7 @@ export class createNote {
     const subJectNote = document.querySelectorAll(".sub-project");
     subJectNote.forEach((value) =>
       value.addEventListener("click", () => {
+        this._showNote();
         allNote.forEach((note) => {
           if (note.classList.contains(value.textContent)) {
             note.classList.remove("hide");
@@ -191,7 +192,7 @@ export class createNote {
     }
   }
 
-  _selectSubproject(subProject) {
+  _highlightProject(subProject) {
     subProject.addEventListener("click", () => {
       this._removeHighlight();
       this.projectDetail.forEach((value) => {
@@ -201,8 +202,8 @@ export class createNote {
     });
   }
 
-  _highlightNote(note, subProject) {
-    this.homeSidebar.addEventListener("click", (e) => {
+  _highlightNote(note) {
+    this.homeSidebar.addEventListener("click", () => {
       note.classList.remove("hide");
     });
     this.todaySidebar.addEventListener("click", () => {
@@ -219,24 +220,13 @@ export class createNote {
         note.classList.remove("hide");
       }
     });
-    this.noteSidebar.addEventListener("click", () => {
+    this.stickynoteSidbar.addEventListener("click", () => {
       if (note.classList.contains("Note") === false) {
         note.classList.add("hide");
       } else if (note.classList.contains("Note") === true) {
         note.classList.remove("hide");
       }
     });
-
-    // subProject.forEach((element) => {
-    //   element.addEventListener("click", () => {
-    //     note.classList.add("hide");
-    //     if (note.classList.contains(element.textContent)) {
-    //       note.classList.remove("hide");
-    //     } else {
-    //       note.classList.add("hide");
-    //     }
-    //   });
-    // });
   }
 
   _categorizeNote(note) {
@@ -246,7 +236,7 @@ export class createNote {
       note.classList.add("today");
     } else if (this.weekSidebar.classList.contains("highlight")) {
       note.classList.add("week");
-    } else if (this.noteSidebar.classList.contains("highlight")) {
+    } else if (this.stickynoteSidbar.classList.contains("highlight")) {
       note.classList.add("stickynote");
     }
 
@@ -267,7 +257,7 @@ export class createNote {
   _showDetail(detailButton, title, detailValue, date, priority, note) {
     detailButton.addEventListener("click", () => {
       this.detailTitle.textContent = title.textContent;
-      this.detailProject.textContent = this._projectValue(note);
+      this.detailProject.textContent = this._getPname(note);
       this.detailPriority.textContent = priority;
       this.detailDate.textContent = date.textContent;
       this.detailDetails.textContent = detailValue;
@@ -276,7 +266,7 @@ export class createNote {
     });
   }
 
-  _projectValue(note) {
+  _getPname(note) {
     if (note.classList.contains("today")) {
       return "today";
     } else if (note.classList.contains("week")) {
@@ -284,9 +274,7 @@ export class createNote {
     } else {
       for (const element of this.projectDetail) {
         if (element.classList.contains("highlight")) {
-          let temp = "";
-          temp = element.textContent;
-          return temp;
+          return element.textContent;
         }
       }
     }
@@ -406,7 +394,7 @@ export class createNote {
     }
   }
 
-  _storeValue() {
+  _createElement() {
     this.todoButton.addEventListener("click", (e) => {
       if (
         this.todoTitle.value !== "" &&
@@ -468,7 +456,7 @@ export class createNote {
 
         this.stickyContainer.classList.remove("hide");
         this._removeHighlight();
-        this.noteSidebar.classList.add("highlight");
+        this.stickynoteSidbar.classList.add("highlight");
         this._addStickynote(newNote.title, newNote.detail);
         this.stickynoteTitle.value = "";
         this.stickynoteDetail.value = "";
