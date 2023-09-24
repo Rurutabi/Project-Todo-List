@@ -56,7 +56,6 @@ export class createNote {
   editHigh = document.querySelector(".edit-high");
   editCheckbox = document.querySelectorAll(".edit-checkbox");
   storeNote = [];
-  storeProject = [];
   projectDetail = [];
 
   constructor() {
@@ -109,10 +108,11 @@ export class createNote {
   }
 
   //Note
-  _addNote(titleValue, detailValue, dateValue, priority) {
+  _addNote(titleValue, detailValue, dateValue, priority, subProject) {
     const note = document.createElement("div");
+
     this._categorizeNote(note);
-    this._highlightNote(note);
+    this._highlightNote(note, subProject);
     this._priorityColor(priority, note);
     note.classList.add("note");
     this.noteContainer.appendChild(note);
@@ -164,8 +164,25 @@ export class createNote {
 
     this.listContainer.appendChild(subProject);
     this.projectDetail.push(subProject);
+
     this._addOverflow();
     this._selectSubproject(subProject);
+  }
+
+  _projectNote() {
+    const allNote = document.querySelectorAll(".note");
+    const subJectNote = document.querySelectorAll(".sub-project");
+    subJectNote.forEach((value) =>
+      value.addEventListener("click", () => {
+        allNote.forEach((note) => {
+          if (note.classList.contains(value.textContent)) {
+            note.classList.remove("hide");
+          } else {
+            note.classList.add("hide");
+          }
+        });
+      })
+    );
   }
 
   _addOverflow() {
@@ -184,15 +201,15 @@ export class createNote {
     });
   }
 
-  _highlightNote(note) {
-    this.homeSidebar.addEventListener("click", () => {
+  _highlightNote(note, subProject) {
+    this.homeSidebar.addEventListener("click", (e) => {
       note.classList.remove("hide");
     });
     this.todaySidebar.addEventListener("click", () => {
-      if (note.classList.contains("today") === false) {
-        note.classList.add("hide");
-      } else if (note.classList.contains("today") === true) {
+      if (note.classList.contains("today") === true) {
         note.classList.remove("hide");
+      } else {
+        note.classList.add("hide");
       }
     });
     this.weekSidebar.addEventListener("click", () => {
@@ -210,19 +227,16 @@ export class createNote {
       }
     });
 
-    this.projectDetail.forEach((element) => {
-      element.addEventListener("click", () => {
-        note.classList.add("hide");
-        const allNotes = document.querySelectorAll(".note");
-        allNotes.forEach((value) => {
-          if (value.classList.contains(element.textContent)) {
-            value.classList.remove("hide");
-          } else {
-            value.classList.add("hide");
-          }
-        });
-      });
-    });
+    // subProject.forEach((element) => {
+    //   element.addEventListener("click", () => {
+    //     note.classList.add("hide");
+    //     if (note.classList.contains(element.textContent)) {
+    //       note.classList.remove("hide");
+    //     } else {
+    //       note.classList.add("hide");
+    //     }
+    //   });
+    // });
   }
 
   _categorizeNote(note) {
@@ -418,6 +432,8 @@ export class createNote {
             newNote.priority
           );
 
+          this._projectNote();
+
           this._removeForm();
           this._emptyForm();
         }
@@ -431,8 +447,10 @@ export class createNote {
           title: this.projectTitle.value,
         };
 
-        this.storeProject.push(newProject);
+        this.storeNote.push(newProject);
+
         this._addProject(newProject.title);
+        this._projectNote();
         this.projectTitle.value = "";
         this._removeForm();
       }
