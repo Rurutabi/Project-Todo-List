@@ -10,7 +10,7 @@ export class createNote {
   todaySidebar = document.querySelector(".today-sidebar");
   weekSidebar = document.querySelector(".week-sidebar");
   projectSidebar = document.querySelector(".project-sidebar");
-  stickynoteSidbar = document.querySelector(".note-sidebar");
+  stickynoteSidebar = document.querySelector(".note-sidebar");
 
   //Form list
   todoList = document.querySelector(".todo-list");
@@ -83,11 +83,11 @@ export class createNote {
       this._removeHighlight();
       this.weekSidebar.classList.add("highlight");
     });
-    this.stickynoteSidbar.addEventListener("click", () => {
+    this.stickynoteSidebar.addEventListener("click", () => {
       this._removeHighlight();
       this.noteContainer.classList.add("hide");
       this.stickyContainer.classList.remove("hide");
-      this.stickynoteSidbar.classList.add("highlight");
+      this.stickynoteSidebar.classList.add("highlight");
     });
   }
 
@@ -100,7 +100,7 @@ export class createNote {
     this.homeSidebar.classList.remove("highlight");
     this.todaySidebar.classList.remove("highlight");
     this.weekSidebar.classList.remove("highlight");
-    this.stickynoteSidbar.classList.remove("highlight");
+    this.stickynoteSidebar.classList.remove("highlight");
 
     this.projectDetail.forEach((value) => {
       value.classList.remove("highlight");
@@ -220,7 +220,7 @@ export class createNote {
         note.classList.remove("hide");
       }
     });
-    this.stickynoteSidbar.addEventListener("click", () => {
+    this.stickynoteSidebar.addEventListener("click", () => {
       if (note.classList.contains("Note") === false) {
         note.classList.add("hide");
       } else if (note.classList.contains("Note") === true) {
@@ -236,7 +236,7 @@ export class createNote {
       note.classList.add("today");
     } else if (this.weekSidebar.classList.contains("highlight")) {
       note.classList.add("week");
-    } else if (this.stickynoteSidbar.classList.contains("highlight")) {
+    } else if (this.stickynoteSidebar.classList.contains("highlight")) {
       note.classList.add("stickynote");
     }
 
@@ -400,7 +400,8 @@ export class createNote {
         this.todoTitle.value !== "" &&
         this.todoDetail.value !== "" &&
         this.todoDate.value !== "" &&
-        this._checkPriority(this.todoCheckbox) === true
+        this._checkPriority(this.todoCheckbox) === true &&
+        !this.stickynoteSidebar.classList.contains("highlight")
       ) {
         e.preventDefault();
         if (this.homeSidebar.classList.contains("highlight") !== true) {
@@ -456,7 +457,7 @@ export class createNote {
 
         this.stickyContainer.classList.remove("hide");
         this._removeHighlight();
-        this.stickynoteSidbar.classList.add("highlight");
+        this.stickynoteSidebar.classList.add("highlight");
         this._addStickynote(newNote.title, newNote.detail);
         this.stickynoteTitle.value = "";
         this.stickynoteDetail.value = "";
