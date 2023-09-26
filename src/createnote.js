@@ -55,7 +55,7 @@ export class createNote {
   editMedium = document.querySelector(".edit-medium");
   editHigh = document.querySelector(".edit-high");
   editCheckbox = document.querySelectorAll(".edit-checkbox");
-  storeNote = [];
+  storeElement = [];
   projectDetail = [];
 
   constructor() {
@@ -64,6 +64,7 @@ export class createNote {
     this._createElement();
     this._highlightSidebar();
     this._changeForm();
+    this._getLocalStorage();
   }
 
   //Sidebar
@@ -108,12 +109,12 @@ export class createNote {
   }
 
   //Note
-  _addNote(titleValue, detailValue, dateValue, priority) {
+  _addNote(newNote) {
     const note = document.createElement("div");
 
     this._categorizeNote(note);
     this._highlightNote(note);
-    this._priorityColor(priority, note);
+    this._priorityColor(newNote.priority, note);
     note.classList.add("note");
     this.noteContainer.appendChild(note);
 
@@ -127,7 +128,7 @@ export class createNote {
 
     const title = document.createElement("label");
     title.for = "note";
-    title.textContent = titleValue;
+    title.textContent = newNote.title;
     noteLeft.appendChild(title);
 
     const noteRight = document.createElement("div");
@@ -140,7 +141,7 @@ export class createNote {
     noteRight.appendChild(detailButton);
 
     const date = document.createElement("p");
-    date.textContent = dateValue;
+    date.textContent = newNote.date;
     noteRight.appendChild(date);
 
     const editIcon = document.createElement("i");
@@ -151,14 +152,28 @@ export class createNote {
     binIcon.className = "fa-solid fa-trash-can";
     noteRight.appendChild(binIcon);
 
-    this._showDetail(detailButton, title, detailValue, date, priority, note);
+    this._showDetail(
+      detailButton,
+      title,
+      newNote.detail,
+      date,
+      newNote.priority,
+      note
+    );
     this._removeNote(note, binIcon);
-    this._showEdit(editIcon, title, detailValue, date, priority, note);
+    this._showEdit(
+      editIcon,
+      title,
+      newNote.detail,
+      date,
+      newNote.priority,
+      note
+    );
   }
 
-  _addProject(title) {
+  _addProject(newProject) {
     const subProject = document.createElement("li");
-    subProject.textContent = title;
+    subProject.textContent = newProject.title;
     subProject.classList.add(subProject.textContent);
     subProject.classList.add("sub-project");
 
@@ -412,14 +427,9 @@ export class createNote {
             priority: this._getPriority(this.todoCheckbox),
           };
 
-          this.storeNote.push(newNote);
-
-          this._addNote(
-            newNote.title,
-            newNote.detail,
-            newNote.date,
-            newNote.priority
-          );
+          this.storeElement.push(newNote);
+          this._setLocalStroage();
+          this._addNote(newNote);
 
           this._projectNote();
 
@@ -436,9 +446,9 @@ export class createNote {
           title: this.projectTitle.value,
         };
 
-        this.storeNote.push(newProject);
+        // this.storeElement.push(newProject);
 
-        this._addProject(newProject.title);
+        this._addProject(newProject);
         this._projectNote();
         this.projectTitle.value = "";
         this._removeForm();
@@ -541,6 +551,23 @@ export class createNote {
       this.detailContainer.classList.add("hide");
       this._removeForm();
       this._removeEdit();
+    });
+  }
+
+  _setLocalStroage() {
+    localStorage.setItem("storeElement", JSON.stringify(this.storeElement));
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem("storeElement"));
+
+    if (!data) return;
+
+    this.storeElement = data;
+    console.log(this.storeElement);
+
+    this.storeElement.forEach((value) => {
+      this._addNote(value);
     });
   }
 }
