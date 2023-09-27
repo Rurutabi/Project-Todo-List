@@ -152,23 +152,9 @@ export class createNote {
     binIcon.className = "fa-solid fa-trash-can";
     noteRight.appendChild(binIcon);
 
-    this._showDetail(
-      detailButton,
-      title,
-      newNote.detail,
-      date,
-      newNote.priority,
-      note
-    );
-    this._removeNote(note, binIcon);
-    this._showEdit(
-      editIcon,
-      title,
-      newNote.detail,
-      date,
-      newNote.priority,
-      note
-    );
+    this._showDetail(detailButton, title, date, note, newNote);
+    this._removeNote(note, binIcon, newNote);
+    this._showEdit(editIcon, title, date, note, newNote);
   }
 
   _addProject(newProject) {
@@ -262,20 +248,35 @@ export class createNote {
     }
   }
 
-  _removeNote(note, binIcon) {
+  _removeNote(note, binIcon, newNote) {
     binIcon.addEventListener("click", () => {
       note.remove();
+
+      console.log(newNote);
+
+      // Find the index of the book to remove
+      const index = this.storeElement.findIndex(
+        (value) =>
+          value.title === newNote.title &&
+          value.author === newNote.author &&
+          value.date === newNote.date &&
+          value.priority === newNote.priority
+      );
+
+      // Remove the book from the library array
+      this.storeElement.splice(index, 1);
+      this._setLocalStroage();
     });
   }
 
   //Detail
-  _showDetail(detailButton, title, detailValue, date, priority, note) {
+  _showDetail(detailButton, title, date, note, newNote) {
     detailButton.addEventListener("click", () => {
       this.detailTitle.textContent = title.textContent;
       this.detailProject.textContent = this._getPname(note);
-      this.detailPriority.textContent = priority;
+      this.detailPriority.textContent = newNote.priority;
       this.detailDate.textContent = date.textContent;
-      this.detailDetails.textContent = detailValue;
+      this.detailDetails.textContent = newNote.detail;
       this.detailContainer.classList.remove("hide");
       this.overlay.classList.remove("hide");
     });
@@ -295,15 +296,15 @@ export class createNote {
     }
   }
 
-  _showEdit(editIcon, title, detailValue, date, priority, note) {
+  _showEdit(editIcon, title, date, note, newNote) {
     editIcon.addEventListener("click", () => {
       this.editContainer.classList.remove("hide");
       this.overlay.classList.remove("hide");
       this.editTitle.value = title.textContent;
-      this.editDetail.value = detailValue;
+      this.editDetail.value = newNote.detail;
       this.editDate.value = this._resetDate(date.textContent);
 
-      this._tickPriority(priority);
+      this._tickPriority(newNote.priority);
       this.editButton.removeEventListener("click", this._editNote);
 
       this._editNote = (e) => {
@@ -315,10 +316,17 @@ export class createNote {
         ) {
           e.preventDefault();
           title.textContent = this.editTitle.value;
+          newNote.title = this.editTitle.value;
+
           date.textContent = this._customDate(this.editDate.value);
+          newNote.date = this._customDate(this.editDate.value);
+
+          newNote.detail = this.editDetail.value;
 
           this._priorityColor(this._getPriority(this.editCheckbox), note);
-          priority = this._getPriority(this.editCheckbox);
+          newNote.priority = this._getPriority(this.editCheckbox);
+
+          this._setLocalStroage();
           this._removeEdit();
         }
       };
@@ -564,7 +572,6 @@ export class createNote {
     if (!data) return;
 
     this.storeElement = data;
-    console.log(this.storeElement);
 
     this.storeElement.forEach((value) => {
       this._addNote(value);
