@@ -56,6 +56,7 @@ export class createNote {
   editHigh = document.querySelector(".edit-high");
   editCheckbox = document.querySelectorAll(".edit-checkbox");
   storeElement = [];
+  storeProject = [];
   projectDetail = [];
 
   constructor() {
@@ -65,6 +66,7 @@ export class createNote {
     this._highlightSidebar();
     this._changeForm();
     this._getLocalStorage();
+    this._projectNote();
   }
 
   //Sidebar
@@ -454,8 +456,8 @@ export class createNote {
           title: this.projectTitle.value,
         };
 
-        // this.storeElement.push(newProject);
-
+        this.storeProject.push(newProject);
+        this._setLocalStroage();
         this._addProject(newProject);
         this._projectNote();
         this.projectTitle.value = "";
@@ -564,17 +566,26 @@ export class createNote {
 
   _setLocalStroage() {
     localStorage.setItem("storeElement", JSON.stringify(this.storeElement));
+    localStorage.setItem("storeProject", JSON.stringify(this.storeProject));
   }
 
   _getLocalStorage() {
     const data = JSON.parse(localStorage.getItem("storeElement"));
+    const data1 = JSON.parse(localStorage.getItem("storeProject"));
 
     if (!data) return;
 
     this.storeElement = data;
 
+    this.storeProject = data1;
+
     this.storeElement.forEach((value) => {
       this._addNote(value);
     });
+
+    this.storeProject.forEach((value) => {
+      this._addProject(value);
+    });
+    // localStorage.clear();
   }
 }
