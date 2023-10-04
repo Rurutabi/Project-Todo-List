@@ -72,17 +72,17 @@ export class createNote {
   //Sidebar
   _highlightSidebar() {
     this.homeSidebar.addEventListener("click", () => {
-      this._showNote();
+      this._switchContainer();
       this._removeHighlight();
       this.homeSidebar.classList.add("highlight");
     });
     this.todaySidebar.addEventListener("click", () => {
-      this._showNote();
+      this._switchContainer();
       this._removeHighlight();
       this.todaySidebar.classList.add("highlight");
     });
     this.weekSidebar.addEventListener("click", () => {
-      this._showNote();
+      this._switchContainer();
       this._removeHighlight();
       this.weekSidebar.classList.add("highlight");
     });
@@ -94,7 +94,7 @@ export class createNote {
     });
   }
 
-  _showNote() {
+  _switchContainer() {
     this.stickyContainer.classList.add("hide");
     this.noteContainer.classList.remove("hide");
   }
@@ -113,11 +113,10 @@ export class createNote {
   //Note
   _addNote(newNote) {
     const note = document.createElement("div");
-
-    this._categorizeNote(note);
+    note.classList.add("note");
+    note.classList.add(newNote.catagory);
     this._highlightNote(note);
     this._priorityColor(newNote.priority, note);
-    note.classList.add("note");
     this.noteContainer.appendChild(note);
 
     const noteLeft = document.createElement("div");
@@ -177,7 +176,7 @@ export class createNote {
     const subJectNote = document.querySelectorAll(".sub-project");
     subJectNote.forEach((value) =>
       value.addEventListener("click", () => {
-        this._showNote();
+        this._switchContainer();
         allNote.forEach((note) => {
           if (note.classList.contains(value.textContent)) {
             note.classList.remove("hide");
@@ -232,20 +231,20 @@ export class createNote {
     });
   }
 
-  _categorizeNote(note) {
+  _categorizeNote() {
     if (this.homeSidebar.classList.contains("highlight")) {
-      note.classList.add("home");
+      return "home";
     } else if (this.todaySidebar.classList.contains("highlight")) {
-      note.classList.add("today");
+      return "today";
     } else if (this.weekSidebar.classList.contains("highlight")) {
-      note.classList.add("week");
+      return "week";
     } else if (this.stickynoteSidebar.classList.contains("highlight")) {
-      note.classList.add("stickynote");
+      return "stickynote";
     }
 
     for (const element of this.projectDetail) {
       if (element.classList.contains("highlight")) {
-        note.classList.add(element.textContent);
+        return element.textContent;
       }
     }
   }
@@ -429,12 +428,14 @@ export class createNote {
         !this.stickynoteSidebar.classList.contains("highlight")
       ) {
         e.preventDefault();
+
         if (this.homeSidebar.classList.contains("highlight") !== true) {
           const newNote = {
             title: this.todoTitle.value,
             detail: this.todoDetail.value,
             date: this._customDate(this.todoDate.value),
             priority: this._getPriority(this.todoCheckbox),
+            catagory: this._categorizeNote(),
           };
 
           this.storeElement.push(newNote);
