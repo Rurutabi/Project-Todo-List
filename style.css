@@ -26,7 +26,8 @@ span {
 }
 
 li:hover,
-button:hover {
+button:hover,
+.fa-xmark:hover {
   cursor: pointer;
   transform: scale(1.07);
 }
@@ -358,4 +359,15 @@ button:hover {
 
 .hide {
   display: none;
+}
+
+.task-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fa-xmark {
+  font-size: 0.6rem;
+  margin: 15px 10px -10px 10px;
 }
