@@ -114,7 +114,7 @@ export class createNote {
   _addNote(newNote) {
     const note = document.createElement("div");
     note.classList.add("note");
-    note.classList.add(newNote.catagory);
+    note.classList.add(newNote.category);
     this._highlightNote(note);
     this._priorityColor(newNote.priority, note);
     this.noteContainer.appendChild(note);
@@ -159,16 +159,40 @@ export class createNote {
   }
 
   _addProject(newProject) {
+    const taskContainer = document.createElement("div");
+    taskContainer.classList.add("task-container");
+
     const subProject = document.createElement("li");
     subProject.textContent = newProject.title;
     subProject.classList.add(subProject.textContent);
     subProject.classList.add("sub-project");
 
-    this.listContainer.appendChild(subProject);
-    this.projectDetail.push(subProject);
+    const icon = document.createElement("i");
+    icon.classList.add("fa-solid", "fa-xmark");
 
+    this.listContainer.appendChild(taskContainer);
+    taskContainer.appendChild(subProject);
+    taskContainer.appendChild(icon);
+
+    this.projectDetail.push(subProject);
     this._addOverflow();
     this._highlightProject(subProject);
+
+    this._removeProject(taskContainer, subProject, icon);
+  }
+
+  _removeProject(taskContainer, subProject, icon) {
+    icon.addEventListener("click", () => {
+      taskContainer.remove();
+
+      const index = this.storeProject.findIndex(
+        (value) => value.title === subProject.textContent
+      );
+
+      this.storeProject.splice(index, 1);
+
+      this._setLocalStroage();
+    });
   }
 
   _projectNote() {
@@ -189,7 +213,7 @@ export class createNote {
   }
 
   _addOverflow() {
-    if (this.listContainer.clientHeight > 118) {
+    if (this.listContainer.clientHeight > 119) {
       this.listContainer.style.overflowY = "auto";
     }
   }
@@ -264,7 +288,6 @@ export class createNote {
           value.priority === newNote.priority
       );
 
-      // Remove the book from the library array
       this.storeElement.splice(index, 1);
       this._setLocalStroage();
     });
@@ -435,7 +458,7 @@ export class createNote {
             detail: this.todoDetail.value,
             date: this._customDate(this.todoDate.value),
             priority: this._getPriority(this.todoCheckbox),
-            catagory: this._categorizeNote(),
+            category: this._categorizeNote(),
           };
 
           this.storeElement.push(newNote);
