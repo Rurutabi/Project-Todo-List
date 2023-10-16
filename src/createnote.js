@@ -75,6 +75,8 @@ export class createNote {
       this._switchContainer();
       this._removeHighlight();
       this.homeSidebar.classList.add("highlight");
+      console.log(this.storeElement);
+      console.log(this.storeProject);
     });
     this.todaySidebar.addEventListener("click", () => {
       this._switchContainer();
@@ -189,8 +191,26 @@ export class createNote {
         (value) => value.title === subProject.textContent
       );
 
-      this.storeProject.splice(index, 1);
+      const allNote = document.querySelectorAll(".note");
 
+      allNote.forEach((value) => {
+        if (value.classList.contains(subProject.textContent)) {
+          value.remove();
+          const valueString = value.textContent.split("Detail");
+
+          const index = this.storeElement.findIndex(
+            (value) =>
+              value.title === valueString[0] && value.date === valueString[1]
+            // &&
+            // value.priority === newNote.priority
+          );
+
+          this.storeElement.splice(index, 1);
+          this._setLocalStroage();
+        }
+      });
+
+      this.storeProject.splice(index, 1);
       this._setLocalStroage();
     });
   }
@@ -283,7 +303,7 @@ export class createNote {
       const index = this.storeElement.findIndex(
         (value) =>
           value.title === newNote.title &&
-          value.author === newNote.author &&
+          value.detail === newNote.detail &&
           value.date === newNote.date &&
           value.priority === newNote.priority
       );
