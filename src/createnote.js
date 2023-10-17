@@ -197,12 +197,15 @@ export class createNote {
         if (value.classList.contains(subProject.textContent)) {
           value.remove();
           const valueString = value.textContent.split("Detail");
+          const notePriority = this._getProjectPriority(value);
+
+          console.log(notePriority);
 
           const index = this.storeElement.findIndex(
             (value) =>
-              value.title === valueString[0] && value.date === valueString[1]
-            // &&
-            // value.priority === newNote.priority
+              value.title === valueString[0] &&
+              value.date === valueString[1] &&
+              value.priority === notePriority
           );
 
           this.storeElement.splice(index, 1);
@@ -213,6 +216,16 @@ export class createNote {
       this.storeProject.splice(index, 1);
       this._setLocalStroage();
     });
+  }
+
+  _getProjectPriority(note) {
+    if (note.classList.contains("red")) {
+      return "red";
+    } else if (note.classList.contains("yellow")) {
+      return "yellow";
+    } else if (note.classList.contains("green")) {
+      return "green";
+    }
   }
 
   _projectNote() {
@@ -513,7 +526,7 @@ export class createNote {
       if (this.stickynoteTitle !== "" && this.stickynoteDetail !== "") {
         e.preventDefault();
 
-        const newNote = {
+        const newSticky = {
           title: this.stickynoteTitle.value,
           detail: this.stickynoteDetail.value,
         };
@@ -522,7 +535,7 @@ export class createNote {
         this.stickyContainer.classList.remove("hide");
         this._removeHighlight();
         this.stickynoteSidebar.classList.add("highlight");
-        this._addStickynote(newNote.title, newNote.detail);
+        this._addStickynote(newSticky);
         this.stickynoteTitle.value = "";
         this.stickynoteDetail.value = "";
         this._removeForm();
@@ -530,7 +543,7 @@ export class createNote {
     });
   }
 
-  _addStickynote(title, detail) {
+  _addStickynote(newSticky) {
     // Create the sticky note
     const stickyNote = document.createElement("div");
     stickyNote.className = "sticky-note";
@@ -542,7 +555,7 @@ export class createNote {
     // Create the sticky title
     const stickyTitle = document.createElement("h3");
     stickyTitle.className = "sticky-title";
-    stickyTitle.textContent = title;
+    stickyTitle.textContent = newSticky.title;
 
     // Create the close icon
     const closeIcon = document.createElement("i");
@@ -552,7 +565,7 @@ export class createNote {
     // Create the sticky detail
     const stickyDetail = document.createElement("p");
     stickyDetail.className = "sticky-detail";
-    stickyDetail.textContent = detail;
+    stickyDetail.textContent = newSticky.detail;
 
     // Append elements to their respective parents
     this.stickyContainer.appendChild(stickyNote);
