@@ -55,8 +55,9 @@ export class createNote {
   editMedium = document.querySelector(".edit-medium");
   editHigh = document.querySelector(".edit-high");
   editCheckbox = document.querySelectorAll(".edit-checkbox");
-  storeElement = [];
+  storeNote = [];
   storeProject = [];
+  storeSticky = [];
   projectDetail = [];
 
   constructor() {
@@ -75,7 +76,7 @@ export class createNote {
       this._switchContainer();
       this._removeHighlight();
       this.homeSidebar.classList.add("highlight");
-      console.log(this.storeElement);
+      console.log(this.storeNote);
       console.log(this.storeProject);
     });
     this.todaySidebar.addEventListener("click", () => {
@@ -201,14 +202,14 @@ export class createNote {
 
           console.log(notePriority);
 
-          const index = this.storeElement.findIndex(
+          const index = this.storeNote.findIndex(
             (value) =>
               value.title === valueString[0] &&
               value.date === valueString[1] &&
               value.priority === notePriority
           );
 
-          this.storeElement.splice(index, 1);
+          this.storeNote.splice(index, 1);
           this._setLocalStroage();
         }
       });
@@ -313,7 +314,7 @@ export class createNote {
       console.log(newNote);
 
       // Find the index of the book to remove
-      const index = this.storeElement.findIndex(
+      const index = this.storeNote.findIndex(
         (value) =>
           value.title === newNote.title &&
           value.detail === newNote.detail &&
@@ -321,7 +322,7 @@ export class createNote {
           value.priority === newNote.priority
       );
 
-      this.storeElement.splice(index, 1);
+      this.storeNote.splice(index, 1);
       this._setLocalStroage();
     });
   }
@@ -494,7 +495,7 @@ export class createNote {
             category: this._categorizeNote(),
           };
 
-          this.storeElement.push(newNote);
+          this.storeNote.push(newNote);
           this._setLocalStroage();
           this._addNote(newNote);
 
@@ -531,10 +532,12 @@ export class createNote {
           detail: this.stickynoteDetail.value,
         };
         this.noteContainer.classList.add("hide");
+        this.storeSticky.push(newSticky);
 
         this.stickyContainer.classList.remove("hide");
         this._removeHighlight();
         this.stickynoteSidebar.classList.add("highlight");
+        this._setLocalStroage();
         this._addStickynote(newSticky);
         this.stickynoteTitle.value = "";
         this.stickynoteDetail.value = "";
@@ -560,7 +563,7 @@ export class createNote {
     // Create the close icon
     const closeIcon = document.createElement("i");
     closeIcon.className = "fa-solid fa-xmark";
-    this._removeSticky(stickyNote, closeIcon);
+    this._removeSticky(stickyNote, closeIcon, newSticky);
 
     // Create the sticky detail
     const stickyDetail = document.createElement("p");
@@ -574,14 +577,28 @@ export class createNote {
     stickyHeader.appendChild(stickyTitle);
     stickyHeader.appendChild(closeIcon);
 
-    stickyNote.style.height = 70 + stickyDetail.clientHeight + "px";
+    // Calculate the height based on the content
+    const words = newSticky.detail
+      .split(/\s+/)
+      .filter((word) => word !== "").length;
+    console.log(words);
+    const minHeight = 120; // Minimum height
+    const calculatedHeight = Math.max(minHeight, minHeight + words * 3) + "px";
 
-    console.log(stickyNote.style.height);
+    stickyNote.style.height = calculatedHeight;
   }
 
-  _removeSticky(stickyNote, closeIcon) {
+  _removeSticky(stickyNote, closeIcon, newSticky) {
     closeIcon.addEventListener("click", () => {
       stickyNote.remove();
+
+      const index = this.storeSticky.findIndex(
+        (value) =>
+          value.title === newSticky.title && value.detail === newSticky.detail
+      );
+
+      this.storeSticky.splice(index, 1);
+      this._setLocalStroage();
     });
   }
 
@@ -622,27 +639,36 @@ export class createNote {
   }
 
   _setLocalStroage() {
-    localStorage.setItem("storeElement", JSON.stringify(this.storeElement));
+    localStorage.setItem("storeNote", JSON.stringify(this.storeNote));
     localStorage.setItem("storeProject", JSON.stringify(this.storeProject));
+    localStorage.setItem("storeSticky", JSON.stringify(this.storeSticky));
   }
 
   _getLocalStorage() {
-    const data = JSON.parse(localStorage.getItem("storeElement"));
+    const data = JSON.parse(localStorage.getItem("storeNote"));
     const data1 = JSON.parse(localStorage.getItem("storeProject"));
+    const data2 = JSON.parse(localStorage.getItem("storeSticky"));
 
     if (!data) return;
+    if (!data1) return;
+    if (!data2) return;
 
-    this.storeElement = data;
-
+    this.storeNote = data;
     this.storeProject = data1;
+    this.storeSticky = data2;
 
-    this.storeElement.forEach((value) => {
+    this.storeNote.forEach((value) => {
       this._addNote(value);
     });
 
     this.storeProject.forEach((value) => {
       this._addProject(value);
     });
+
+    this.storeSticky.forEach((value) => {
+      this._addStickynote(value);
+    });
+
     // localStorage.clear();
   }
 }
