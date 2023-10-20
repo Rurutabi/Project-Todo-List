@@ -218,7 +218,7 @@ export class createNote {
           this._setLocalStroage();
         }
       });
-
+      this._addOverflow();
       this.storeProject.splice(index, 1);
       this._setLocalStroage();
     });
@@ -226,11 +226,11 @@ export class createNote {
 
   _getProjectPriority(note) {
     if (note.classList.contains("red")) {
-      return "red";
+      return "High";
     } else if (note.classList.contains("yellow")) {
-      return "yellow";
+      return "Medium";
     } else if (note.classList.contains("green")) {
-      return "green";
+      return "Low";
     }
   }
 
@@ -254,6 +254,8 @@ export class createNote {
   _addOverflow() {
     if (this.listContainer.clientHeight > 119) {
       this.listContainer.style.overflowY = "auto";
+    } else if (this.listContainer.clientHeight < 119) {
+      this.listContainer.style.overflowY = "";
     }
   }
 
@@ -592,7 +594,8 @@ export class createNote {
       .filter((word) => word !== "").length;
     console.log(words);
     const minHeight = 120; // Minimum height
-    const calculatedHeight = Math.max(minHeight, minHeight + words * 3) + "px";
+    const calculatedHeight =
+      Math.max(minHeight, minHeight + words * 4.5) + "px";
 
     stickyNote.style.height = calculatedHeight;
   }
