@@ -117,7 +117,7 @@ export class createNote {
   _addNote(newNote) {
     const note = document.createElement("div");
     note.classList.add("note");
-    note.classList.add(newNote.category);
+    note.classList.add(this._removeSpace(newNote));
     this._highlightNote(note);
     this._priorityColor(newNote.priority, note);
     this.noteContainer.appendChild(note);
@@ -167,8 +167,6 @@ export class createNote {
 
     const subProject = document.createElement("li");
     subProject.textContent = newProject.title;
-    // subProject.classList.add(newProject.title);
-    //***Don't remember why I added this */
     subProject.classList.add("sub-project");
 
     const icon = document.createElement("i");
@@ -196,7 +194,7 @@ export class createNote {
       const allNote = document.querySelectorAll(".note");
 
       allNote.forEach((value) => {
-        if (value.classList.contains(subProject.textContent)) {
+        if (value.classList.contains(this._addSpace(subProject.textContent))) {
           value.remove();
           const valueString = value.textContent.split("Detail");
           const notePriority = this._getProjectPriority(value);
@@ -241,7 +239,7 @@ export class createNote {
       value.addEventListener("click", () => {
         this._switchContainer();
         allNote.forEach((note) => {
-          if (note.classList.contains(value.textContent)) {
+          if (note.classList.contains(this._addSpace(value.textContent))) {
             note.classList.remove("hide");
           } else {
             note.classList.add("hide");
@@ -249,6 +247,22 @@ export class createNote {
         });
       })
     );
+  }
+
+  _removeSpace(newNote) {
+    if (newNote.category.includes(" ")) {
+      return newNote.category.replace(/ /g, "-");
+    } else {
+      return newNote.category;
+    }
+  }
+
+  _addSpace(value) {
+    if (value.includes(" ")) {
+      return value.replace(/ /g, "-");
+    } else {
+      return value;
+    }
   }
 
   _addOverflow() {
@@ -306,7 +320,6 @@ export class createNote {
     } else if (this.stickynoteSidebar.classList.contains("highlight")) {
       return "stickynote";
     }
-
     for (const element of this.projectDetail) {
       if (element.classList.contains("highlight")) {
         return element.textContent;
