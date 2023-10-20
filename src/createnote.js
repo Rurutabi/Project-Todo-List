@@ -167,7 +167,8 @@ export class createNote {
 
     const subProject = document.createElement("li");
     subProject.textContent = newProject.title;
-    subProject.classList.add(subProject.textContent);
+    // subProject.classList.add(newProject.title);
+    //***Don't remember why I added this */
     subProject.classList.add("sub-project");
 
     const icon = document.createElement("i");
@@ -200,16 +201,20 @@ export class createNote {
           const valueString = value.textContent.split("Detail");
           const notePriority = this._getProjectPriority(value);
 
+          console.log(valueString[0]);
+          console.log(valueString[1]);
           console.log(notePriority);
+          console.log(subProject.textContent);
 
-          const index = this.storeNote.findIndex(
+          const index1 = this.storeNote.findIndex(
             (value) =>
               value.title === valueString[0] &&
               value.date === valueString[1] &&
-              value.priority === notePriority
+              value.priority === notePriority &&
+              value.category === subProject.textContent
           );
 
-          this.storeNote.splice(index, 1);
+          this.storeNote.splice(index1, 1);
           this._setLocalStroage();
         }
       });
@@ -311,8 +316,6 @@ export class createNote {
     binIcon.addEventListener("click", () => {
       note.remove();
 
-      console.log(newNote);
-
       // Find the index of the book to remove
       const index = this.storeNote.findIndex(
         (value) =>
@@ -347,7 +350,7 @@ export class createNote {
       return "week";
     } else {
       for (const element of this.projectDetail) {
-        if (element.classList.contains("highlight")) {
+        if (note.classList.contains(element.textContent)) {
           return element.textContent;
         }
       }
@@ -496,6 +499,7 @@ export class createNote {
           };
 
           this.storeNote.push(newNote);
+          console.log(this.storeNote);
           this._setLocalStroage();
           this._addNote(newNote);
 
@@ -524,16 +528,21 @@ export class createNote {
     });
 
     this.stickynoteButton.addEventListener("click", (e) => {
-      if (this.stickynoteTitle !== "" && this.stickynoteDetail !== "") {
+      if (
+        this.stickynoteTitle.value !== "" &&
+        this.stickynoteDetail.value !== ""
+      ) {
         e.preventDefault();
+
+        console.log(this.stickynoteDetail.value);
 
         const newSticky = {
           title: this.stickynoteTitle.value,
           detail: this.stickynoteDetail.value,
         };
+
         this.noteContainer.classList.add("hide");
         this.storeSticky.push(newSticky);
-
         this.stickyContainer.classList.remove("hide");
         this._removeHighlight();
         this.stickynoteSidebar.classList.add("highlight");
