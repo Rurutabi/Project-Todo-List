@@ -60,6 +60,9 @@ export class createNote {
   storeSticky = [];
   projectDetail = [];
 
+  //Warning
+  warning = document.querySelector(".warning");
+
   constructor() {
     this._showForm();
     this._removeOverlay();
@@ -522,6 +525,14 @@ export class createNote {
 
           this._removeForm();
           this._emptyForm();
+        } else {
+          this.warning.classList.remove("hide");
+
+          const addHideClass = () => {
+            this.warning.classList.add("hide");
+          };
+
+          setTimeout(addHideClass, 5000);
         }
       }
     });
