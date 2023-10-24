@@ -94,8 +94,10 @@ button:hover,
 }
 
 .create-button {
-  background-color: #ebff7b;
+  background-color: white;
   padding: 12px;
+  border: 1px soild black;
+  font-weight: bold;
 }
 
 .note {
@@ -135,16 +137,17 @@ button:hover,
 .form-container,
 .detail-container,
 .edit-container {
-  position: absolute;
+  position: fixed;
   display: flex;
+  top: 50%;
+  left: 50%;
   flex-direction: column;
   animation: fadeIn 0.5s;
   z-index: 10;
+  transform: translate(-50%, -50%);
 }
 
 .form-container {
-  top: 28%;
-  left: 25%;
   width: max(50%, 450px);
 }
 
@@ -241,7 +244,8 @@ button:hover,
 .submit-button {
   font-size: 12px;
   background-color: #acd7ec;
-  padding: 4px;
+  border-color: white;
+  padding: 12px;
 }
 
 @keyframes fadeIn {
@@ -278,8 +282,6 @@ button:hover,
 }
 
 .detail-container {
-  top: 40%;
-  left: 35%;
   width: max(30%, 250px);
   background-color: #acd7ec;
   box-shadow: var(--shadow);
@@ -303,8 +305,6 @@ button:hover,
 }
 
 .edit-container {
-  top: 28%;
-  left: 25%;
   width: max(50%, 450px);
 }
 
@@ -375,11 +375,66 @@ button:hover,
 
 .warning {
   top: 105%;
-  left: 25%;
+  left: 35%;
   position: absolute;
   font-size: 0.7rem;
   font-weight: bold;
   color: rgb(255, 255, 255);
   animation: fadeIn 0.5s;
   z-index: 10;
+}
+
+@media only screen and (max-width: 600px) {
+  .heading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sidebar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: var(--shadow);
+    width: 100%;
+  }
+
+  .content-list {
+    display: flex;
+    align-items: center;
+    padding-bottom: 18px;
+  }
+
+  /* .group1 {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .group2 {
+    margin-top: var(--main-margin);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .seperate-text {
+    width: 100%;
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .bottom {
+    margin-bottom: var(--main-margin);
+  } */
 }

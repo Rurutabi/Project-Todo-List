@@ -502,12 +502,14 @@ export class createNote {
         this.todoTitle.value !== "" &&
         this.todoDetail.value !== "" &&
         this.todoDate.value !== "" &&
-        this._checkPriority(this.todoCheckbox) === true &&
-        !this.stickynoteSidebar.classList.contains("highlight")
+        this._checkPriority(this.todoCheckbox) === true
       ) {
         e.preventDefault();
 
-        if (this.homeSidebar.classList.contains("highlight") !== true) {
+        if (
+          this.homeSidebar.classList.contains("highlight") !== true &&
+          this.stickynoteSidebar.classList.contains("highlight") !== true
+        ) {
           const newNote = {
             title: this.todoTitle.value,
             detail: this.todoDetail.value,
@@ -522,7 +524,7 @@ export class createNote {
           this._addNote(newNote);
 
           this._projectNote();
-
+          this.warning.classList.add("hide");
           this._removeForm();
           this._emptyForm();
         } else {
