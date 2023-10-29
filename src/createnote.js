@@ -24,7 +24,7 @@ export class createNote {
   todoDetail = document.querySelector(".todo-detail");
   todoButton = document.querySelector(".todo-button");
   todoDate = document.querySelector(".date");
-  todoCheckbox = document.querySelectorAll(".checkbox-button");
+  todoCheckbox = document.querySelectorAll(".radio-button");
 
   //Project Form
   projectForm = document.querySelector(".project-form");
@@ -130,6 +130,7 @@ export class createNote {
     note.appendChild(noteLeft);
 
     const checkbox = document.createElement("input");
+    checkbox.classList.add("checkbox");
     checkbox.type = "checkbox";
     noteLeft.appendChild(checkbox);
 
