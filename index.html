@@ -82,9 +82,9 @@
           </div>
           <div class="bottom-form">
             <div class="date-container">
-              <p>Due Date:</p>
+              <label class="">Due Date:</label>
               <input
-                class="date"
+                class="date date-input"
                 type="date"
                 id="task-date"
                 name="task-date"
@@ -94,41 +94,42 @@
             <div class="priority-and-submit">
               <div class="priority-container">
                 <p>Priority:</p>
+                <input
+                  type="radio"
+                  name="priority"
+                  value="Low"
+                  class="radio-button"
+                  required
+                />
                 <label for="checkbox-label" class="checkbox-label low">
-                  <input
-                    type="radio"
-                    name="priority"
-                    value="Low"
-                    class="checkbox-button"
-                    required
-                  />
                   Low
                 </label>
+                <input
+                  type="radio"
+                  name="priority"
+                  value="Medium"
+                  class="radio-button"
+                  required
+                />
                 <label for="checkbox-label" class="checkbox-label medium">
-                  <input
-                    type="radio"
-                    name="priority"
-                    value="Medium"
-                    class="checkbox-button"
-                    required
-                  />
                   Medium
                 </label>
+
+                <input
+                  type="radio"
+                  name="priority"
+                  value="High"
+                  class="radio-button"
+                  required
+                />
                 <label for="checkbox-label" class="checkbox-label high">
-                  <input
-                    type="radio"
-                    name="priority"
-                    value="High"
-                    class="checkbox-button"
-                    required
-                  />
                   High
                 </label>
               </div>
               <input
                 class="submit-button todo-button"
                 type="submit"
-                value="Add To Do"
+                value="Create a Note"
               />
             </div>
           </div>
@@ -183,7 +184,7 @@
               <input
                 class="submit-button sticky-button"
                 type="submit"
-                value="Create a Note"
+                value="Create a Stickynote"
               />
             </div>
           </div>
