@@ -120,6 +120,7 @@ export class createNote {
   _addNote(newNote) {
     const note = document.createElement("div");
     note.classList.add("note");
+
     note.classList.add(this._removeSpace(newNote));
     this._highlightNote(note);
     this._priorityColor(newNote.priority, note);
@@ -132,6 +133,7 @@ export class createNote {
     const checkbox = document.createElement("input");
     checkbox.classList.add("checkbox");
     checkbox.type = "checkbox";
+    checkbox.checked = newNote.checkbox;
     noteLeft.appendChild(checkbox);
 
     const title = document.createElement("label");
@@ -160,6 +162,7 @@ export class createNote {
     binIcon.className = "fa-solid fa-trash-can";
     noteRight.appendChild(binIcon);
 
+    this._checkCompletion(checkbox, note, newNote);
     this._showDetail(detailButton, title, date, note, newNote);
     this._removeNote(note, binIcon, newNote);
     this._showEdit(editIcon, title, date, note, newNote);
@@ -331,6 +334,24 @@ export class createNote {
     }
   }
 
+  _checkCompletion(checkbox, note, newNote) {
+    if (checkbox.checked === true) {
+      note.classList.add("note-complete");
+    }
+
+    checkbox.addEventListener("click", () => {
+      if (checkbox.checked === true) {
+        newNote.checkbox = true;
+        note.classList.add("note-complete");
+        this._setLocalStroage();
+      } else if (checkbox.checked === false) {
+        newNote.checkbox = false;
+        note.classList.remove("note-complete");
+        this._setLocalStroage();
+      }
+    });
+  }
+
   _removeNote(note, binIcon, newNote) {
     binIcon.addEventListener("click", () => {
       note.remove();
@@ -364,9 +385,9 @@ export class createNote {
 
   _getPname(note) {
     if (note.classList.contains("today")) {
-      return "today";
+      return "Today";
     } else if (note.classList.contains("week")) {
-      return "week";
+      return "Week";
     } else {
       for (const element of this.projectDetail) {
         if (note.classList.contains(element.textContent)) {
@@ -517,6 +538,7 @@ export class createNote {
             date: this._customDate(this.todoDate.value),
             priority: this._getPriority(this.todoCheckbox),
             category: this._categorizeNote(),
+            checkbox: false,
           };
 
           this.storeNote.push(newNote);
