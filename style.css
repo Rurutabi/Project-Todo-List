@@ -92,11 +92,17 @@ input[type="radio"][value="High"]:checked + .checkbox-label.high {
 .heading-container {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 24px;
   height: 75px;
   background-color: #146c94;
   gap: 8px;
   box-shadow: var(--shadow);
+}
+
+.icon-heading {
+  display: flex;
+  gap: 5px;
 }
 
 .content-container {
@@ -157,7 +163,6 @@ input[type="radio"][value="High"]:checked + .checkbox-label.high {
 }
 
 .detail-button {
-  margin-left: 15px;
   background-color: #4caf50; /* Green */
   border: none;
   color: black;
@@ -333,6 +338,24 @@ input:focus {
   }
 }
 
+@keyframes sliderleft {
+  from {
+    margin-right: -100%;
+  }
+  to {
+    margin-right: 0;
+  }
+}
+
+@keyframes sliderright {
+  from {
+    right: 0;
+  }
+  to {
+    right: -100%;
+  }
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -359,7 +382,7 @@ input:focus {
 
 .detail-container {
   width: max(30%, 250px);
-  background-color: #00aaff;
+  background-color: #a2b8dd;
   box-shadow: var(--shadow);
   padding: 12px;
   color: black;
@@ -417,7 +440,6 @@ input:focus {
   width: 100%;
   flex-wrap: wrap;
   align-content: flex-start;
-
   column-gap: 12px;
   row-gap: 12px;
   padding: 12px;
@@ -434,6 +456,7 @@ input:focus {
 
 .sticky-note {
   background-color: #a2b8dd;
+  border: 3px solid white;
   box-shadow: var(--shadow);
   width: 250px;
   padding: 12px;
@@ -466,56 +489,59 @@ input:focus {
 }
 
 @media only screen and (max-width: 600px) {
+  body {
+    zoom: 80%;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background-image: none;
+  }
+
+  .container {
+    align-items: start;
+  }
+
   .heading-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
   }
 
-  .content-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .note-container,
+  .sticky-container {
+    height: 100vh;
   }
 
   .sidebar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: fixed;
+    right: -100%;
+    zoom: 80%;
+    width: 120px;
     box-shadow: var(--shadow);
-    width: 100%;
-  }
-
-  .content-list {
-    display: flex;
-    align-items: center;
-    padding-bottom: 18px;
-  }
-
-  /* .group1 {
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-
-  .group2 {
-    margin-top: var(--main-margin);
-    justify-content: center;
-    align-items: center;
-  }
-
-  .seperate-text {
-    width: 100%;
   }
 
   .form-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    zoom: 80%;
+    width: 100%;
   }
 
-  .bottom {
-    margin-bottom: var(--main-margin);
-  } */
+  .detail-button {
+    margin-left: 5px;
+  }
+
+  .content-list {
+    padding-bottom: 18px;
+  }
+
+  .moveleft {
+    animation: sliderleft 0.5s;
+  }
+
+  .moveright {
+    animation: sliderright 0.5s;
+  }
+
+  .todo-button {
+    width: 120px;
+  }
 }
