@@ -6,6 +6,7 @@ export class createNote {
   overlay = document.querySelector(".overlay");
 
   //Sidebar
+  sidebarContainer = document.querySelector(".sidebar");
   homeSidebar = document.querySelector(".home-sidebar");
   todaySidebar = document.querySelector(".today-sidebar");
   weekSidebar = document.querySelector(".week-sidebar");
@@ -62,6 +63,8 @@ export class createNote {
 
   //Warning
   warning = document.querySelector(".warning");
+  showMenu = document.querySelector(".show-menu");
+  popMenu = false;
 
   constructor() {
     this._showForm();
@@ -71,6 +74,25 @@ export class createNote {
     this._changeForm();
     this._getLocalStorage();
     this._projectNote();
+    this._showMenu();
+  }
+
+  _showMenu() {
+    this.showMenu.addEventListener("click", () => {
+      if (this.popMenu === false) {
+        this.sidebarContainer.classList.remove("moveright");
+        this.sidebarContainer.classList.add("moveleft");
+        this.sidebarContainer.style.right = "0px";
+        this.popMenu = true;
+      } else if (this.popMenu === true) {
+        this.sidebarContainer.classList.remove("moveleft");
+        this.sidebarContainer.classList.add("moveright");
+        this.sidebarContainer.style.right = "100%";
+        this.popMenu = false;
+      }
+      // this.sidebarContainer.classList.remove("sidebar");
+      // this.sidebarContainer.classList.add("m-sidebar");
+    });
   }
 
   //Sidebar
