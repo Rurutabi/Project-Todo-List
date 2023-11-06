@@ -42,9 +42,11 @@ button:hover,
 }
 
 .diary-container {
-  width: 1100px;
-  height: 600px;
-  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: max(90%, 1100px);
+  height: max(90%, 600px);
 }
 
 input[type="radio"] {
@@ -94,7 +96,7 @@ input[type="radio"][value="High"]:checked + .checkbox-label.high {
   align-items: center;
   justify-content: space-between;
   padding: 24px;
-  height: 75px;
+  height: max(10%, 75px);
   background-color: #146c94;
   gap: 8px;
   box-shadow: var(--shadow);
@@ -107,7 +109,7 @@ input[type="radio"][value="High"]:checked + .checkbox-label.high {
 
 .content-container {
   display: flex;
-  height: 525px;
+  height: max(80%, 525px);
   box-shadow: var(--shadow);
 }
 .sidebar {
